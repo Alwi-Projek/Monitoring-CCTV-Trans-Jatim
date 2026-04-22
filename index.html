@@ -3,63 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monitoring CCTV Trans Jatim - Revisi 22 April 2026</title>
+  <title>Monitoring CCTV Trans Jatim - Revisi Lanjutan</title>
   <style>
     :root {
-      --green-dark:#2f6b57;
-      --green:#3e7b67;
-      --green-soft:#edf4f0;
-      --line:#7a8b82;
-      --bg:#f4f7f5;
+      --brand-1:#0f766e;
+      --brand-2:#115e59;
+      --brand-3:#14b8a6;
+      --bg:#f3f7f8;
+      --card:#ffffff;
+      --line:#d5dee3;
+      --line-dark:#7f9197;
       --text:#1f2937;
       --muted:#64748b;
-      --white:#fff;
-      --danger:#c2410c;
-      --ok:#166534;
+      --ok:#15803d;
+      --ok-soft:#dcfce7;
+      --bad:#c2410c;
+      --bad-soft:#ffedd5;
+      --note:#0ea5e9;
+      --note-soft:#e0f2fe;
+      --shadow:0 10px 26px rgba(15, 23, 42, .07);
+      --radius:18px;
     }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: Arial, Helvetica, sans-serif; background:var(--bg); color:var(--text); }
-    .wrap { max-width:1700px; margin:0 auto; padding:18px; }
-    .card { background:#fff; border:1px solid #d8e2db; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.05); }
-    .header { padding:18px 20px; display:flex; gap:16px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; }
-    h1 { margin:0; font-size:28px; }
-    .sub { color:var(--muted); margin-top:8px; line-height:1.5; }
-    .btns { display:flex; gap:10px; flex-wrap:wrap; }
-    button { border:0; border-radius:12px; padding:12px 16px; background:var(--green-dark); color:#fff; font-weight:700; cursor:pointer; }
-    button.secondary { background:#0f172a; }
-    button.ghost { background:#e2e8f0; color:#0f172a; }
-    .stats { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-top:16px; }
-    .stat { padding:14px; }
-    .stat .n { font-size:28px; font-weight:700; margin-top:8px; }
-    .stat .l { font-size:13px; color:var(--muted); }
-    .grid { display:grid; grid-template-columns:420px 1fr; gap:16px; margin-top:16px; }
-    .section { padding:16px; }
-    .section h2, .section h3 { margin:0 0 8px 0; }
-    .help { font-size:13px; color:var(--muted); line-height:1.5; }
-    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .field { margin-bottom:10px; }
-    .field label { display:block; font-size:12px; color:var(--muted); margin-bottom:6px; font-weight:700; }
-    input, select, textarea { width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; background:#fff; }
-    textarea { min-height:84px; resize:vertical; }
-    .toolbar { display:flex; gap:10px; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; }
-    .toolbar-right { display:flex; gap:10px; flex-wrap:wrap; }
-    .table-wrap { overflow:auto; border-top:1px solid #d8e2db; }
-    table { width:100%; border-collapse:collapse; min-width:1500px; }
-    thead th { background:var(--green-dark); color:#fff; font-size:12px; position:sticky; top:0; z-index:2; }
-    th, td { border:1px solid var(--line); padding:6px 8px; text-align:center; font-size:12px; vertical-align:middle; }
-    td.text-left { text-align:left; }
-    tbody tr:nth-child(even) { background:#fbfdfb; }
-    .group-row td { background:#f2f4f6; font-weight:700; text-align:left; }
-    .summary-row td { background:#f7f8f9; font-size:11px; color:#334155; }
-    .ok-text { color:var(--ok); font-weight:700; }
-    .bad-text { color:var(--danger); font-weight:700; }
-    .issue-box { display:flex; gap:8px; flex-wrap:wrap; }
-    .issue-chip { background:#eef2f7; border-radius:999px; padding:6px 10px; font-size:12px; }
-    .tiny { font-size:11px; color:var(--muted); }
-    .legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; }
-    .dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:6px; }
-    @media (max-width:1200px) { .grid { grid-template-columns:1fr; } .stats { grid-template-columns:repeat(3,1fr); } }
-    @media (max-width:700px) { .wrap { padding:10px; } .stats { grid-template-columns:1fr; } .form-grid { grid-template-columns:1fr; } }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#eef6f7 0%,#f8fbfc 180px,var(--bg) 100%);color:var(--text)}
+    .wrap{max-width:1750px;margin:0 auto;padding:18px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .header{padding:20px 22px;display:flex;gap:18px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;background:linear-gradient(135deg,#ffffff 0%,#f6fbfb 100%)}
+    h1{margin:0;font-size:29px}
+    .sub{margin-top:8px;color:var(--muted);line-height:1.55;max-width:980px}
+    .btns{display:flex;gap:10px;flex-wrap:wrap}
+    button{border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,var(--brand-1),var(--brand-2));color:#fff;font-weight:700;cursor:pointer;box-shadow:0 6px 16px rgba(17,94,89,.22)}
+    button:hover{transform:translateY(-1px)}
+    button.secondary{background:linear-gradient(135deg,#0f172a,#334155)}
+    button.ghost{background:#e2e8f0;color:#0f172a;box-shadow:none}
+    button.warn{background:linear-gradient(135deg,#d97706,#b45309)}
+    .stats{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-top:16px}
+    .stat{padding:15px 16px;background:linear-gradient(180deg,#fff 0%,#fbfdfd 100%)}
+    .stat .l{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.2px}
+    .stat .n{font-size:29px;font-weight:700;margin-top:9px}
+    .grid{display:grid;grid-template-columns:450px 1fr;gap:16px;margin-top:16px}
+    .section{padding:16px}
+    .section h2,.section h3{margin:0 0 8px 0}
+    .help{font-size:13px;color:var(--muted);line-height:1.55}
+    .helper-box{margin-top:12px;padding:12px 13px;border-radius:14px;background:#f8fafc;border:1px dashed #cbd5e1;font-size:13px;color:#475569;line-height:1.55}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .field{margin-bottom:10px}
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700}
+    input,select,textarea{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:11px;font-size:14px;background:#fff;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:#14b8a6;box-shadow:0 0 0 4px rgba(20,184,166,.12)}
+    textarea{min-height:84px;resize:vertical}
+    .toolbar{display:flex;gap:10px;justify-content:space-between;align-items:flex-end;flex-wrap:wrap}
+    .toolbar-right{display:flex;gap:10px;flex-wrap:wrap}
+    .issue-box{display:flex;gap:8px;flex-wrap:wrap}
+    .issue-chip{background:#eef2ff;border:1px solid #dbe4ff;border-radius:999px;padding:6px 10px;font-size:12px}
+    .tiny{font-size:11px;color:var(--muted)}
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .pill{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid transparent}
+    .pill.ok{background:var(--ok-soft);color:var(--ok);border-color:#bbf7d0}
+    .pill.bad{background:var(--bad-soft);color:var(--bad);border-color:#fed7aa}
+    .pill.note{background:var(--note-soft);color:var(--note);border-color:#bae6fd}
+    .table-wrap{overflow:auto;border-top:1px solid var(--line)}
+    table{width:100%;border-collapse:collapse;min-width:1520px}
+    thead th{background:linear-gradient(180deg,var(--brand-1),var(--brand-2));color:#fff;font-size:12px;position:sticky;top:0;z-index:2}
+    th,td{border:1px solid var(--line-dark);padding:7px 8px;text-align:center;font-size:12px;vertical-align:middle}
+    td.text-left{text-align:left}
+    tbody tr:nth-child(even){background:#fcfefe}
+    .group-row td{background:#eef6f5;font-weight:700;text-align:left;color:#0f172a}
+    .summary-row td{background:#f8fbfb;font-size:11px;color:#334155}
+    .ok-text{color:var(--ok);font-weight:700}
+    .bad-text{color:var(--bad);font-weight:700}
+    .status-cell{font-weight:700}
+    .actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .badge-mini{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}
+    .badge-ok{background:var(--ok-soft);color:var(--ok)}
+    .badge-bad{background:var(--bad-soft);color:var(--bad)}
+    .copy-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:1280px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:760px){.wrap{padding:10px}.stats{grid-template-columns:1fr}.form-grid,.copy-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -67,15 +87,17 @@
   <div class="card header">
     <div>
       <h1>Monitoring CCTV Trans Jatim</h1>
-      <div class="sub">Master data dan tampilan disesuaikan dengan file hasil 22-04-2026: tabel dikelompokkan per koridor, kolom memakai format <b>Tanggal, NO. BUS, Koridor, Jam Cek, Kamera 1-7, Catatan, Tindakan</b>, dan sample data awal mengikuti hasil laporan yang Anda kirim.</div>
+      <div class="sub">Versi ini ditambah filter tindakan, input koridor → bus yang lebih mudah, tindakan berbentuk dropdown, visual lebih rapi, dan fitur <b>copy monitoring ke tanggal berikutnya</b> supaya tidak perlu input satu per satu saat data harian masih sama.</div>
       <div class="legend">
-        <span><span class="dot" style="background:#166534"></span>Berfungsi Normal</span>
-        <span><span class="dot" style="background:#c2410c"></span>Butuh Perbaikan</span>
+        <span class="pill ok">Berfungsi Normal</span>
+        <span class="pill bad">Butuh Perbaikan</span>
+        <span class="pill note">Copy cepat ke tanggal lain</span>
       </div>
     </div>
     <div class="btns">
       <button id="exportReportBtn">Export Laporan (.xls)</button>
       <button id="exportAllBtn" class="secondary">Export Laporan + Master (.xls)</button>
+      <button id="copyFilteredBtn" class="warn" type="button">Copy Filter ke Tanggal Baru</button>
       <button id="resetBtn" class="ghost" type="button">Reset Data Browser</button>
     </div>
   </div>
@@ -87,32 +109,53 @@
     <div class="card stat"><div class="l">Koridor Aktif</div><div id="sKoridor" class="n">0</div></div>
     <div class="card stat"><div class="l">Total Master Koridor</div><div id="sMasterKoridor" class="n">0</div></div>
     <div class="card stat"><div class="l">Total Master Armada</div><div id="sMasterArmada" class="n">0</div></div>
+    <div class="card stat"><div class="l">Temuan Berisi Catatan</div><div id="sCatatan" class="n">0</div></div>
   </div>
 
   <div class="grid">
-    <div class="card section">
-      <h2>Input / Update Monitoring</h2>
-      <div class="help">Data dengan kombinasi <b>tanggal + bus</b> yang sama akan diperbarui. Tindakan default mengikuti hasil file: <i>Berfungsi Normal</i> atau <i>Butuh Perbaikan</i>, tetapi tetap bisa diubah manual untuk catatan vendor.</div>
-      <form id="form">
-        <div class="form-grid">
-          <div class="field"><label>Tanggal</label><input type="date" id="tanggal"></div>
-          <div class="field"><label>NO. BUS</label><select id="bus"></select></div>
-          <div class="field"><label>Koridor</label><input type="text" id="koridor" readonly></div>
-          <div class="field"><label>Jam Cek</label><input type="time" id="jam"></div>
+    <div>
+      <div class="card section" style="margin-bottom:16px">
+        <h2>Input / Update Monitoring</h2>
+        <div class="help">Data dengan kombinasi <b>tanggal + bus</b> yang sama akan diperbarui. Pilih koridor dulu supaya daftar bus lebih pendek dan lebih cepat dicari.</div>
+        <form id="form">
+          <div class="form-grid">
+            <div class="field"><label>Tanggal</label><input type="date" id="tanggal"></div>
+            <div class="field"><label>Koridor</label><select id="koridorInput"></select></div>
+            <div class="field"><label>NO. BUS</label><select id="bus"></select></div>
+            <div class="field"><label>Jam Cek</label><input type="time" id="jam"></div>
+          </div>
+          <div class="form-grid">
+            <div class="field"><label>Kamera 1</label><select id="k1"></select></div>
+            <div class="field"><label>Kamera 2</label><select id="k2"></select></div>
+            <div class="field"><label>Kamera 3</label><select id="k3"></select></div>
+            <div class="field"><label>Kamera 4</label><select id="k4"></select></div>
+            <div class="field"><label>Kamera 5</label><select id="k5"></select></div>
+            <div class="field"><label>Kamera 6</label><select id="k6"></select></div>
+            <div class="field"><label>Kamera 7</label><select id="k7"></select></div>
+          </div>
+          <div class="field"><label>Catatan</label><textarea id="catatan" placeholder="Contoh: Kamera 3 Buram / Semua Kamera OFF"></textarea></div>
+          <div class="field"><label>Tindakan</label><select id="tindakanSelect"></select></div>
+          <button type="submit" style="width:100%">Simpan / Update Data</button>
+        </form>
+        <div class="helper-box">
+          <b>Ide percepatan monitoring harian:</b><br>
+          Saat belum ada perubahan dari vendor, gunakan fitur <b>Copy Filter ke Tanggal Baru</b> atau <b>Copy Semua Tanggal</b>. Sistem akan menyalin data tanggal sebelumnya ke tanggal berikutnya tanpa input ulang satu per satu. Jika ada bus yang sudah diperbaiki, Anda tinggal edit unit tersebut saja.
         </div>
-        <div class="form-grid">
-          <div class="field"><label>Kamera 1</label><select id="k1"></select></div>
-          <div class="field"><label>Kamera 2</label><select id="k2"></select></div>
-          <div class="field"><label>Kamera 3</label><select id="k3"></select></div>
-          <div class="field"><label>Kamera 4</label><select id="k4"></select></div>
-          <div class="field"><label>Kamera 5</label><select id="k5"></select></div>
-          <div class="field"><label>Kamera 6</label><select id="k6"></select></div>
-          <div class="field"><label>Kamera 7</label><select id="k7"></select></div>
+      </div>
+
+      <div class="card section">
+        <h3>Copy Monitoring Cepat</h3>
+        <div class="help">Fitur ini untuk kondisi data harian masih sama. Salin satu tanggal ke tanggal lain, dengan opsi hanya koridor tertentu atau seluruh data.</div>
+        <div class="copy-grid" style="margin-top:10px">
+          <div class="field"><label>Dari Tanggal</label><input type="date" id="copyFrom"></div>
+          <div class="field"><label>Ke Tanggal</label><input type="date" id="copyTo"></div>
+          <div class="field"><label>Koridor (opsional)</label><select id="copyKoridor"></select></div>
+          <div class="field"><label>Mode</label><select id="copyMode"><option value="skip">Lewati jika sudah ada data di tanggal tujuan</option><option value="replace">Timpa data bus yang sama di tanggal tujuan</option></select></div>
         </div>
-        <div class="field"><label>Catatan</label><textarea id="catatan" placeholder="Contoh: Kamera 3 Buram / Semua Kamera OFF"></textarea></div>
-        <div class="field"><label>Tindakan</label><textarea id="tindakan" placeholder="Contoh: Berfungsi Normal / Butuh Perbaikan / Informasikan ke vendor"></textarea></div>
-        <button type="submit" style="width:100%">Simpan / Update Data</button>
-      </form>
+        <div class="actions-row">
+          <button id="copyDateBtn" type="button">Copy Monitoring</button>
+        </div>
+      </div>
     </div>
 
     <div>
@@ -120,11 +163,12 @@
         <div class="toolbar">
           <div>
             <h3>Filter & Rekap</h3>
-            <div class="help">Tampilan bawah mengikuti hasil file: per koridor ada header <b>Koridor</b> dan baris ringkasan <b>Count</b> serta <b>Filled</b>.</div>
+            <div class="help">Sekarang ada filter tindakan <b>Butuh Perbaikan</b> dan <b>Berfungsi Normal</b>. Tabel tetap dikelompokkan per koridor.</div>
           </div>
           <div class="toolbar-right">
             <div class="field" style="margin:0"><label>Tanggal</label><input type="date" id="fTanggal"></div>
             <div class="field" style="margin:0"><label>Koridor</label><select id="fKoridor"></select></div>
+            <div class="field" style="margin:0"><label>Tindakan</label><select id="fTindakan"></select></div>
             <div class="field" style="margin:0"><label>Cari Bus</label><input id="fCari" placeholder="JTM 101 / MLG 101"></div>
           </div>
         </div>
@@ -166,6 +210,7 @@
 
 <script>
 const cameraStatusOptions = ['Berfungsi', 'Tidak Berfungsi', 'Berfungsi Dengan Catatan', ''];
+const tindakanOptions = ['Berfungsi Normal', 'Butuh Perbaikan'];
 const koridorList = ['Semua Koridor','Koridor 1','Koridor 1 - Malang Raya','Koridor 2','Koridor 3','Koridor 4','Koridor 5','Koridor 6','Koridor 7'];
 const groupOrder = koridorList.slice(1);
 const defaultDate = '2026-04-22';
@@ -247,25 +292,40 @@ const sampleLogs = masterArmada.map(arm => {
   return row;
 });
 
-const storageKey = 'transjatim_monitoring_revisi_22apr2026_v1';
+const storageKey = 'transjatim_monitoring_revisi_v2_copydate';
 let logs = JSON.parse(localStorage.getItem(storageKey) || 'null') || sampleLogs;
 
 const el = id => document.getElementById(id);
 const busEl = el('bus');
+const koridorInputEl = el('koridorInput');
 const form = el('form');
 const fields = ['k1','k2','k3','k4','k5','k6','k7'];
 
-function populateSelects() {
-  busEl.innerHTML = masterArmada.map(a => `<option value="${a.noBus}">${a.noBus}</option>`).join('');
+function save(){ localStorage.setItem(storageKey, JSON.stringify(logs)); }
+function dateHuman(iso){ if(!iso) return ''; const [y,m,d] = iso.split('-'); return `${d}-${m}-${y}`; }
+function getArmada(noBus){ return masterArmada.find(x => x.noBus === noBus); }
+
+function populateStaticSelects() {
   el('fKoridor').innerHTML = koridorList.map(k => `<option value="${k}">${k}</option>`).join('');
+  koridorInputEl.innerHTML = groupOrder.map(k => `<option value="${k}">${k}</option>`).join('');
+  el('copyKoridor').innerHTML = koridorList.map(k => `<option value="${k}">${k}</option>`).join('');
+  el('fTindakan').innerHTML = ['Semua Tindakan', ...tindakanOptions].map(v => `<option value="${v}">${v}</option>`).join('');
+  el('tindakanSelect').innerHTML = tindakanOptions.map(v => `<option value="${v}">${v}</option>`).join('');
   fields.forEach(id => {
     el(id).innerHTML = cameraStatusOptions.map(v => `<option value="${v}">${v || '-'}</option>`).join('');
   });
 }
-function getArmada(noBus){ return masterArmada.find(x => x.noBus === noBus); }
-function updateKoridorByBus() {
+
+function populateBusByKoridor(selectedBus) {
+  const koridor = koridorInputEl.value;
+  const list = masterArmada.filter(a => a.koridor === koridor);
+  busEl.innerHTML = list.map(a => `<option value="${a.noBus}">${a.noBus}</option>`).join('');
+  if (selectedBus && list.some(x => x.noBus === selectedBus)) busEl.value = selectedBus;
+  updateBusDependents();
+}
+
+function updateBusDependents() {
   const arm = getArmada(busEl.value);
-  el('koridor').value = arm ? arm.koridor : '';
   const jml = arm ? arm.jumlahKamera : 5;
   fields.forEach((id, idx) => {
     const enabled = (idx + 1) <= jml;
@@ -274,21 +334,25 @@ function updateKoridorByBus() {
     if (enabled && !el(id).value) el(id).value = 'Berfungsi';
   });
 }
-function save(){ localStorage.setItem(storageKey, JSON.stringify(logs)); }
-function dateHuman(iso){ if(!iso) return ''; const [y,m,d] = iso.split('-'); return `${d}-${m}-${y}`; }
 
 function filteredLogs() {
   const dt = el('fTanggal').value;
   const kor = el('fKoridor').value;
+  const tindakan = el('fTindakan').value;
   const cari = el('fCari').value.trim().toLowerCase();
-  return logs.filter(r => (!dt || r.tanggal === dt) && (!kor || kor === 'Semua Koridor' || r.koridor === kor) && (!cari || r.noBus.toLowerCase().includes(cari))).sort((a,b)=> (a.noBus > b.noBus ? 1 : -1));
+  return logs.filter(r =>
+    (!dt || r.tanggal === dt) &&
+    (!kor || kor === 'Semua Koridor' || r.koridor === kor) &&
+    (!tindakan || tindakan === 'Semua Tindakan' || r.tindakan === tindakan) &&
+    (!cari || r.noBus.toLowerCase().includes(cari))
+  ).sort((a,b)=> (a.noBus > b.noBus ? 1 : -1));
 }
+
 function filledPct(rows, key) {
   if (!rows.length) return '0%';
   const n = rows.filter(r => String(r[key] || '').trim() !== '').length;
   return `${Math.round((n / rows.length) * 100)}%`;
 }
-function countIssues(row) { return row.catatan && row.catatan.trim() ? 1 : 0; }
 function tindakanClass(v) { return String(v || '').toLowerCase().includes('butuh') ? 'bad-text' : 'ok-text'; }
 
 function buildGroupedRows(rows) {
@@ -331,7 +395,7 @@ function buildGroupedRows(rows) {
         <td>${r.k6 || ''}</td>
         <td>${r.k7 || ''}</td>
         <td class="text-left">${(r.catatan || '').replace(/\n/g,'<br>')}</td>
-        <td class="${tindakanClass(r.tindakan)}">${r.tindakan || ''}</td>
+        <td class="status-cell ${tindakanClass(r.tindakan)}">${r.tindakan || ''}</td>
       </tr>`).join('');
   });
   return html || '<tr><td colspan="13">Tidak ada data</td></tr>';
@@ -341,20 +405,39 @@ function render() {
   const rows = filteredLogs();
   el('tbody').innerHTML = buildGroupedRows(rows);
 
-  const normal = rows.filter(r => String(r.tindakan || '').toLowerCase().includes('normal')).length;
-  const perbaikan = rows.filter(r => String(r.tindakan || '').toLowerCase().includes('butuh')).length;
+  const normal = rows.filter(r => r.tindakan === 'Berfungsi Normal').length;
+  const perbaikan = rows.filter(r => r.tindakan === 'Butuh Perbaikan').length;
   const koridorAktif = new Set(rows.map(r => r.koridor)).size;
+  const adaCatatan = rows.filter(r => (r.catatan || '').trim()).length;
   el('sTotal').textContent = rows.length;
   el('sNormal').textContent = normal;
   el('sPerbaikan').textContent = perbaikan;
   el('sKoridor').textContent = koridorAktif;
   el('sMasterKoridor').textContent = masterKoridor.length;
   el('sMasterArmada').textContent = masterArmada.length;
+  el('sCatatan').textContent = adaCatatan;
 
   const counts = {};
   rows.forEach(r => { if ((r.catatan || '').trim()) counts[r.catatan] = (counts[r.catatan] || 0) + 1; });
   const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
   el('issues').innerHTML = entries.length ? entries.map(([k,v]) => `<span class="issue-chip">${k} (${v})</span>`).join('') : '<span class="tiny">Belum ada temuan pada filter ini.</span>';
+}
+
+function setFormFromLog(log) {
+  el('tanggal').value = log.tanggal;
+  koridorInputEl.value = log.koridor;
+  populateBusByKoridor(log.noBus);
+  el('jam').value = log.jamCek || '10:02';
+  fields.forEach(id => el(id).value = log[id] || '');
+  el('catatan').value = log.catatan || '';
+  el('tindakanSelect').value = log.tindakan || 'Berfungsi Normal';
+}
+
+function loadExistingIfAny() {
+  const tanggal = el('tanggal').value;
+  const noBus = busEl.value;
+  const row = logs.find(x => x.tanggal === tanggal && x.noBus === noBus);
+  if (row) setFormFromLog(row);
 }
 
 form.addEventListener('submit', (e) => {
@@ -368,7 +451,7 @@ form.addEventListener('submit', (e) => {
     jamCek: el('jam').value,
     k1: el('k1').value, k2: el('k2').value, k3: el('k3').value, k4: el('k4').value, k5: el('k5').value, k6: el('k6').value, k7: el('k7').value,
     catatan: el('catatan').value.trim(),
-    tindakan: el('tindakan').value.trim() || 'Berfungsi Normal'
+    tindakan: el('tindakanSelect').value
   };
   const idx = logs.findIndex(x => x.tanggal === item.tanggal && x.noBus === item.noBus);
   if (idx >= 0) logs[idx] = item; else logs.push(item);
@@ -377,6 +460,27 @@ form.addEventListener('submit', (e) => {
   render();
   alert('Data monitoring tersimpan. Jika bus dan tanggal sama, data lama diperbarui.');
 });
+
+function copyMonitoring(fromDate, toDate, koridor, mode) {
+  if (!fromDate || !toDate) return {copied:0, replaced:0, source:0};
+  const source = logs.filter(r => r.tanggal === fromDate && (!koridor || koridor === 'Semua Koridor' || r.koridor === koridor));
+  let copied = 0, replaced = 0;
+  source.forEach(src => {
+    const cloned = { ...src, tanggal: toDate };
+    const idx = logs.findIndex(x => x.tanggal === toDate && x.noBus === src.noBus);
+    if (idx >= 0) {
+      if (mode === 'replace') {
+        logs[idx] = cloned;
+        replaced++;
+      }
+    } else {
+      logs.push(cloned);
+      copied++;
+    }
+  });
+  save();
+  return { copied, replaced, source: source.length };
+}
 
 function escapeXml(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -401,10 +505,7 @@ function buildExportRows() {
 }
 
 function exportWorkbook(includeMaster) {
-  const laporanRows = [
-    ['Tanggal','NO. BUS','Koridor','Jam Cek','Kamera 1','Kamera 2','Kamera 3','Kamera 4','Kamera 5','Kamera 6','Kamera 7','Catatan','Tindakan'],
-    ...buildExportRows()
-  ];
+  const laporanRows = [['Tanggal','NO. BUS','Koridor','Jam Cek','Kamera 1','Kamera 2','Kamera 3','Kamera 4','Kamera 5','Kamera 6','Kamera 7','Catatan','Tindakan'], ...buildExportRows()];
   let worksheets = sheetXml('Laporan Monitoring', laporanRows);
   if (includeMaster) {
     worksheets += sheetXml('Master Armada', [['NO. BUS','Koridor','Jumlah Kamera'], ...masterArmada.map(a => [a.noBus, a.koridor, a.jumlahKamera])]);
@@ -419,7 +520,7 @@ function exportWorkbook(includeMaster) {
    xmlns:html="http://www.w3.org/TR/REC-html40">
    <Styles>
      <Style ss:ID="Default" ss:Name="Normal"><Alignment ss:Vertical="Center"/></Style>
-     <Style ss:ID="ok"><Font ss:Color="#166534" ss:Bold="1"/></Style>
+     <Style ss:ID="ok"><Font ss:Color="#15803D" ss:Bold="1"/></Style>
      <Style ss:ID="bad"><Font ss:Color="#C2410C" ss:Bold="1"/></Style>
    </Styles>
    ${worksheets}
@@ -427,31 +528,57 @@ function exportWorkbook(includeMaster) {
   const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = includeMaster ? `monitoring_cctv_transjatim_revisi_lengkap_${el('fTanggal').value || 'semua'}.xls` : `monitoring_cctv_transjatim_revisi_${el('fTanggal').value || 'semua'}.xls`;
+  a.download = includeMaster ? `monitoring_cctv_transjatim_lengkap_${el('fTanggal').value || 'semua'}.xls` : `monitoring_cctv_transjatim_${el('fTanggal').value || 'semua'}.xls`;
   a.click();
-  URL.revokeObjectURL(a.href);
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
 el('exportReportBtn').addEventListener('click', () => exportWorkbook(false));
 el('exportAllBtn').addEventListener('click', () => exportWorkbook(true));
 el('resetBtn').addEventListener('click', () => {
-  if (confirm('Hapus data monitoring di browser dan kembali ke sample hasil 22-04-2026?')) {
+  if (confirm('Hapus data monitoring di browser dan kembali ke sample awal?')) {
     localStorage.removeItem(storageKey);
     logs = JSON.parse(JSON.stringify(sampleLogs));
     render();
   }
 });
+koridorInputEl.addEventListener('change', () => populateBusByKoridor());
+busEl.addEventListener('change', () => { updateBusDependents(); loadExistingIfAny(); });
+el('tanggal').addEventListener('change', loadExistingIfAny);
 el('fTanggal').addEventListener('input', render);
 el('fKoridor').addEventListener('change', render);
+el('fTindakan').addEventListener('change', render);
 el('fCari').addEventListener('input', render);
-busEl.addEventListener('change', updateKoridorByBus);
+
+el('copyDateBtn').addEventListener('click', () => {
+  const result = copyMonitoring(el('copyFrom').value, el('copyTo').value, el('copyKoridor').value, el('copyMode').value);
+  el('fTanggal').value = el('copyTo').value;
+  render();
+  alert(`Sumber data: ${result.source} baris\nData baru dicopy: ${result.copied}\nData ditimpa: ${result.replaced}`);
+});
+
+el('copyFilteredBtn').addEventListener('click', () => {
+  const fromDate = el('fTanggal').value || defaultDate;
+  const toDate = prompt('Copy data hasil filter ini ke tanggal berapa? Format: YYYY-MM-DD', fromDate);
+  if (!toDate) return;
+  const result = copyMonitoring(fromDate, toDate, el('fKoridor').value, 'replace');
+  el('fTanggal').value = toDate;
+  render();
+  alert(`Filter berhasil dicopy ke ${toDate}.\nSumber: ${result.source} baris\nBaru: ${result.copied}\nDitimpa: ${result.replaced}`);
+});
 
 (function init(){
-  populateSelects();
+  populateStaticSelects();
   el('tanggal').value = defaultDate;
   el('fTanggal').value = defaultDate;
+  el('copyFrom').value = defaultDate;
+  el('copyTo').value = '2026-04-23';
   el('jam').value = '10:02';
-  updateKoridorByBus();
+  koridorInputEl.value = 'Koridor 1';
+  populateBusByKoridor('JTM 101');
+  el('copyKoridor').value = 'Semua Koridor';
+  updateBusDependents();
+  loadExistingIfAny();
   render();
 })();
 </script>
