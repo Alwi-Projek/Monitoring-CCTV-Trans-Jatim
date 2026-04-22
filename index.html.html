@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoring CCTV Trans Jatim</title>
+  <style>
+    :root {
+      --green-dark:#2f6b57;
+      --green:#3e7b67;
+      --green-soft:#e9f1ed;
+      --line:#b8c4bc;
+      --bg:#f4f7f5;
+      --text:#1e293b;
+      --muted:#64748b;
+      --white:#fff;
+      --danger:#c2410c;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1600px;margin:0 auto;padding:20px}
+    .card{background:#fff;border:1px solid #d8e2db;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+    .header{padding:20px;display:flex;gap:16px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+    h1{margin:0;font-size:28px}
+    .sub{color:var(--muted);margin-top:8px;line-height:1.5}
+    .btns{display:flex;gap:10px;flex-wrap:wrap}
+    button{border:0;border-radius:12px;padding:12px 16px;background:var(--green-dark);color:#fff;font-weight:700;cursor:pointer}
+    button.secondary{background:#0f172a}
+    button.ghost{background:#e2e8f0;color:#0f172a}
+    .grid{display:grid;grid-template-columns:420px 1fr;gap:16px;margin-top:16px}
+    .section{padding:16px}
+    .section h2,.section h3{margin:0 0 8px 0}
+    .help{font-size:13px;color:var(--muted);line-height:1.5}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .field{margin-bottom:10px}
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700}
+    input,select,textarea{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:14px;background:#fff}
+    textarea{min-height:90px;resize:vertical}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+    .stat{padding:14px}
+    .stat .n{font-size:28px;font-weight:700;margin-top:8px}
+    .stat .l{font-size:13px;color:var(--muted)}
+    .toolbar{display:flex;gap:10px;justify-content:space-between;align-items:flex-end;flex-wrap:wrap}
+    .toolbar-right{display:flex;gap:10px;flex-wrap:wrap}
+    .table-wrap{overflow:auto;border-top:1px solid #d8e2db}
+    table{width:100%;border-collapse:collapse;min-width:1500px}
+    thead th{background:var(--green-dark);color:#fff;font-size:12px;position:sticky;top:0;z-index:2}
+    th,td{border:1px solid #7a8b82;padding:8px 10px;text-align:center;font-size:12px;vertical-align:middle}
+    td.text-left{text-align:left}
+    tbody tr:nth-child(even){background:#fbfdfb}
+    .tag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700}
+    .ok{background:#dcfce7;color:#166534}
+    .warn{background:#fef3c7;color:#92400e}
+    .bad{background:#fee2e2;color:#991b1b}
+    .muted{color:var(--muted)}
+    .tiny{font-size:11px}
+    .issue-box{display:flex;gap:8px;flex-wrap:wrap}
+    .issue-chip{background:#eef2f7;border-radius:999px;padding:6px 10px;font-size:12px}
+    @media (max-width:1100px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:700px){.wrap{padding:10px}.stats{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card header">
+    <div>
+      <h1>Monitoring CCTV Trans Jatim</h1>
+      <div class="sub">Format tabel dan hasil export disesuaikan dengan contoh laporan yang Anda kirim: kolom <b>Tanggal, NO. BUS, Koridor, Jam Cek, Kamera 1-7, Status Akhir / Catatan, Tindakan</b>. Data master armada dan koridor juga sudah ditanam di script.</div>
+    </div>
+    <div class="btns">
+      <button id="exportReportBtn">Export Laporan (.xls)</button>
+      <button id="exportAllBtn" class="secondary">Export Laporan + Master (.xls)</button>
+      <button id="resetBtn" class="ghost" type="button">Reset Data Browser</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="card stat"><div class="l">Total Armada Ditampilkan</div><div id="sTotal" class="n">0</div></div>
+    <div class="card stat"><div class="l">Ada Temuan</div><div id="sTemuan" class="n">0</div></div>
+    <div class="card stat"><div class="l">Sudah Diinfokan Vendor</div><div id="sVendor" class="n">0</div></div>
+    <div class="card stat"><div class="l">Koridor Aktif</div><div id="sKoridor" class="n">0</div></div>
+    <div class="card stat"><div class="l">Master Armada</div><div id="sMaster" class="n">0</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card section">
+      <h2>Input Monitoring</h2>
+      <div class="help">Fokus untuk monitoring. Jika ditemukan error, isi catatan dan tindakan seperti: <i>Info ke vendor via WA</i>.</div>
+      <form id="form">
+        <div class="form-grid">
+          <div class="field"><label>Tanggal</label><input type="date" id="tanggal"></div>
+          <div class="field"><label>NO. BUS</label><select id="bus"></select></div>
+          <div class="field"><label>Koridor</label><input type="text" id="koridor" readonly></div>
+          <div class="field"><label>Jam Cek</label><input type="time" id="jam"></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Kamera 1</label><select id="k1"></select></div>
+          <div class="field"><label>Kamera 2</label><select id="k2"></select></div>
+          <div class="field"><label>Kamera 3</label><select id="k3"></select></div>
+          <div class="field"><label>Kamera 4</label><select id="k4"></select></div>
+          <div class="field"><label>Kamera 5</label><select id="k5"></select></div>
+          <div class="field"><label>Kamera 6</label><select id="k6"></select></div>
+          <div class="field"><label>Kamera 7</label><select id="k7"></select></div>
+        </div>
+        <div class="field"><label>Status Akhir / Catatan</label><textarea id="catatan" placeholder="Contoh: Kamera 3 buram / Kamera 4 loading lama"></textarea></div>
+        <div class="field"><label>Tindakan</label><textarea id="tindakan" placeholder="Contoh: Informasikan ke vendor via WA / email"></textarea></div>
+        <div class="field"><label>Status Info Vendor</label>
+          <select id="vendorStatus">
+            <option>Belum Diinfokan</option>
+            <option>Sudah Diinfokan</option>
+            <option>Progress Vendor</option>
+            <option>Selesai Vendor</option>
+            <option>Tidak Perlu</option>
+          </select>
+        </div>
+        <button type="submit" style="width:100%">Simpan / Update Data</button>
+      </form>
+    </div>
+
+    <div>
+      <div class="card section" style="margin-bottom:16px">
+        <div class="toolbar">
+          <div>
+            <h3>Filter & Rekap</h3>
+            <div class="help">Tampilan tabel dibuat mengikuti struktur laporan contoh.</div>
+          </div>
+          <div class="toolbar-right">
+            <div class="field" style="margin:0"><label>Tanggal</label><input type="date" id="fTanggal"></div>
+            <div class="field" style="margin:0"><label>Koridor</label><select id="fKoridor"></select></div>
+            <div class="field" style="margin:0"><label>Cari Bus</label><input id="fCari" placeholder="JTM 101 / MLG 101"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section" style="margin-bottom:16px">
+        <h3>Ringkasan Temuan</h3>
+        <div id="issues" class="issue-box"></div>
+      </div>
+
+      <div class="card">
+        <div class="section" style="padding-bottom:10px"><h3>Tabel Monitoring Harian</h3></div>
+        <div class="table-wrap">
+          <table id="mainTable">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>NO. BUS</th>
+                <th>Koridor</th>
+                <th>Jam Cek</th>
+                <th>Kamera 1</th>
+                <th>Kamera 2</th>
+                <th>Kamera 3</th>
+                <th>Kamera 4</th>
+                <th>Kamera 5</th>
+                <th>Kamera 6</th>
+                <th>Kamera 7</th>
+                <th>Status Akhir / Catatan</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const cameraStatusOptions = ['Berfungsi', 'Tidak Berfungsi', 'Berfungsi Dengan Catatan', ''];
+const koridorList = [
+  'Semua Koridor',
+  'Koridor 1','Koridor 2','Koridor 3','Koridor 4','Koridor 5','Koridor 6','Koridor 7','Koridor 1 - Malang Raya'
+];
+
+function buildMasterArmada() {
+  const out = [];
+  const pushRange = (prefix, start, end, koridor, jumlahKamera) => {
+    for (let n = start; n <= end; n++) {
+      out.push({ noBus: `${prefix} ${n}`, koridor, jumlahKamera });
+    }
+  };
+  pushRange('JTM', 101, 140, 'Koridor 1', 5);
+  pushRange('JTM', 201, 222, 'Koridor 2', 5);
+  pushRange('JTM', 301, 315, 'Koridor 3', 5);
+  pushRange('JTM', 401, 415, 'Koridor 4', 7);
+  pushRange('JTM', 501, 515, 'Koridor 5', 5);
+  pushRange('JTM', 601, 615, 'Koridor 6', 5);
+  pushRange('JTM', 701, 715, 'Koridor 7', 5);
+  pushRange('MLG', 101, 115, 'Koridor 1 - Malang Raya', 5);
+  return out;
+}
+const masterArmada = buildMasterArmada();
+const masterKoridor = koridorList.slice(1).map((nama, idx) => ({ id: idx + 1, nama }));
+
+const sampleLogs = [
+  { tanggal:'2026-04-22', noBus:'JTM 101', koridor:'Koridor 1', jamCek:'10:02', k1:'Berfungsi', k2:'Berfungsi', k3:'Berfungsi Dengan Catatan', k4:'Tidak Berfungsi', k5:'Berfungsi', k6:'', k7:'', catatan:'1. Kamera 3 Berfungsi Namun Buram (Tidak Terlihat Jelas)\n2. Kamera 4 Loading Lama (Tidak Muncul)', tindakan:'', vendorStatus:'Belum Diinfokan' },
+  { tanggal:'2026-04-22', noBus:'JTM 105', koridor:'Koridor 1', jamCek:'10:02', k1:'Berfungsi', k2:'Berfungsi', k3:'Tidak Berfungsi', k4:'Berfungsi', k5:'Berfungsi', k6:'', k7:'', catatan:'Kamera 3 Mati (Video Loss)', tindakan:'Info ke vendor', vendorStatus:'Sudah Diinfokan' },
+  { tanggal:'2026-04-22', noBus:'JTM 114', koridor:'Koridor 1', jamCek:'10:02', k1:'Tidak Berfungsi', k2:'Tidak Berfungsi', k3:'Tidak Berfungsi', k4:'Tidak Berfungsi', k5:'Tidak Berfungsi', k6:'', k7:'', catatan:'Semua Kamera OFF (CP4 Off)', tindakan:'Info ke vendor', vendorStatus:'Sudah Diinfokan' },
+  { tanggal:'2026-04-22', noBus:'JTM 303', koridor:'Koridor 3', jamCek:'10:02', k1:'Berfungsi', k2:'Berfungsi', k3:'Berfungsi Dengan Catatan', k4:'Berfungsi', k5:'Berfungsi', k6:'', k7:'', catatan:'Kamera 3 Buram', tindakan:'Pantau / info vendor bila perlu', vendorStatus:'Belum Diinfokan' },
+  { tanggal:'2026-04-22', noBus:'JTM 407', koridor:'Koridor 4', jamCek:'10:02', k1:'Berfungsi', k2:'Tidak Berfungsi', k3:'Berfungsi', k4:'Berfungsi', k5:'Tidak Berfungsi', k6:'Tidak Berfungsi', k7:'Berfungsi', catatan:'Kamera 2,5,6 Loss (Video Loss)', tindakan:'Info ke vendor', vendorStatus:'Sudah Diinfokan' },
+  { tanggal:'2026-04-22', noBus:'JTM 503', koridor:'Koridor 5', jamCek:'10:02', k1:'Berfungsi', k2:'Berfungsi', k3:'Berfungsi Dengan Catatan', k4:'Berfungsi', k5:'Berfungsi', k6:'', k7:'', catatan:'Kamera 3 Buram', tindakan:'', vendorStatus:'Tidak Perlu' },
+  { tanggal:'2026-04-22', noBus:'JTM 603', koridor:'Koridor 6', jamCek:'10:02', k1:'Berfungsi', k2:'Berfungsi', k3:'Berfungsi Dengan Catatan', k4:'Berfungsi', k5:'Berfungsi', k6:'', k7:'', catatan:'Kamera 3 Buram', tindakan:'', vendorStatus:'Tidak Perlu' },
+  { tanggal:'2026-04-22', noBus:'MLG 101', koridor:'Koridor 1 - Malang Raya', jamCek:'10:02', k1:'Berfungsi', k2:'Berfungsi', k3:'Berfungsi', k4:'Berfungsi', k5:'Berfungsi', k6:'', k7:'', catatan:'', tindakan:'', vendorStatus:'Tidak Perlu' }
+];
+
+const storageKey = 'transjatim_monitoring_exact_v2';
+let logs = JSON.parse(localStorage.getItem(storageKey) || 'null') || sampleLogs;
+
+const el = id => document.getElementById(id);
+const busEl = el('bus');
+const form = el('form');
+const fields = ['k1','k2','k3','k4','k5','k6','k7'];
+
+function populateSelects() {
+  busEl.innerHTML = masterArmada.map(a => `<option value="${a.noBus}">${a.noBus}</option>`).join('');
+  el('fKoridor').innerHTML = koridorList.map(k => `<option value="${k}">${k}</option>`).join('');
+  fields.forEach(id => {
+    el(id).innerHTML = cameraStatusOptions.map(v => `<option value="${v}">${v || '-'}</option>`).join('');
+  });
+}
+function getArmada(noBus){ return masterArmada.find(x => x.noBus === noBus); }
+function updateKoridorByBus() {
+  const arm = getArmada(busEl.value);
+  el('koridor').value = arm ? arm.koridor : '';
+  const jml = arm ? arm.jumlahKamera : 5;
+  fields.forEach((id, idx) => { el(id).disabled = (idx + 1) > jml; if ((idx + 1) > jml) el(id).value = ''; });
+}
+function save(){ localStorage.setItem(storageKey, JSON.stringify(logs)); }
+function dateHuman(iso){ if(!iso) return ''; const [y,m,d] = iso.split('-'); return `${d}-${m}-${y}`; }
+function filteredLogs() {
+  const dt = el('fTanggal').value;
+  const kor = el('fKoridor').value;
+  const cari = el('fCari').value.trim().toLowerCase();
+  return logs.filter(r => (!dt || r.tanggal === dt) && (!kor || kor === 'Semua Koridor' || r.koridor === kor) && (!cari || r.noBus.toLowerCase().includes(cari))).sort((a,b)=> (a.noBus > b.noBus ? 1 : -1));
+}
+function issueLabel(txt){ return txt && txt.trim() ? '<span class="tag bad">Ada Temuan</span>' : '<span class="tag ok">Normal</span>'; }
+function render() {
+  const rows = filteredLogs();
+  el('tbody').innerHTML = rows.length ? rows.map(r => `
+    <tr>
+      <td>${dateHuman(r.tanggal)}</td>
+      <td><b>${r.noBus}</b></td>
+      <td>${r.koridor}</td>
+      <td>${(r.jamCek || '').replace(':','.')}</td>
+      <td>${r.k1 || ''}</td>
+      <td>${r.k2 || ''}</td>
+      <td>${r.k3 || ''}</td>
+      <td>${r.k4 || ''}</td>
+      <td>${r.k5 || ''}</td>
+      <td>${r.k6 || ''}</td>
+      <td>${r.k7 || ''}</td>
+      <td class="text-left">${(r.catatan || '').replace(/\n/g,'<br>')}</td>
+      <td class="text-left">${(r.tindakan || '').replace(/\n/g,'<br>')}</td>
+    </tr>`).join('') : '<tr><td colspan="13">Tidak ada data</td></tr>';
+
+  const temuan = rows.filter(r => (r.catatan || '').trim()).length;
+  const vendor = rows.filter(r => ['Sudah Diinfokan','Progress Vendor','Selesai Vendor'].includes(r.vendorStatus)).length;
+  const koridorAktif = new Set(rows.map(r => r.koridor)).size;
+  el('sTotal').textContent = rows.length;
+  el('sTemuan').textContent = temuan;
+  el('sVendor').textContent = vendor;
+  el('sKoridor').textContent = koridorAktif;
+  el('sMaster').textContent = masterArmada.length;
+
+  const counts = {};
+  rows.forEach(r => { if ((r.catatan || '').trim()) counts[r.catatan] = (counts[r.catatan] || 0) + 1; });
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  el('issues').innerHTML = entries.length ? entries.map(([k,v]) => `<span class="issue-chip">${k} (${v})</span>`).join('') : '<span class="muted tiny">Belum ada temuan pada filter ini.</span>';
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const noBus = busEl.value;
+  const arm = getArmada(noBus);
+  const item = {
+    tanggal: el('tanggal').value,
+    noBus,
+    koridor: arm.koridor,
+    jamCek: el('jam').value,
+    k1: el('k1').value, k2: el('k2').value, k3: el('k3').value, k4: el('k4').value, k5: el('k5').value, k6: el('k6').value, k7: el('k7').value,
+    catatan: el('catatan').value.trim(),
+    tindakan: el('tindakan').value.trim(),
+    vendorStatus: el('vendorStatus').value
+  };
+  const idx = logs.findIndex(x => x.tanggal === item.tanggal && x.noBus === item.noBus);
+  if (idx >= 0) logs[idx] = item; else logs.push(item);
+  save();
+  el('fTanggal').value = item.tanggal;
+  render();
+  alert('Data monitoring tersimpan. Jika bus dan tanggal sama, data lama akan di-update.');
+});
+
+function escapeXml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function sheetXml(name, headers, rows) {
+  const headerXml = headers.map(h => `<Cell ss:StyleID="hdr"><Data ss:Type="String">${escapeXml(h)}</Data></Cell>`).join('');
+  const rowXml = rows.map(r => `<Row>${r.map(v => `<Cell><Data ss:Type="String">${escapeXml(v)}</Data></Cell>`).join('')}</Row>`).join('');
+  return `<Worksheet ss:Name="${escapeXml(name)}"><Table><Row>${headerXml}</Row>${rowXml}</Table></Worksheet>`;
+}
+
+function exportWorkbook(includeMaster) {
+  const rows = filteredLogs().map(r => [
+    dateHuman(r.tanggal), r.noBus, r.koridor, (r.jamCek || '').replace(':','.'), r.k1 || '', r.k2 || '', r.k3 || '', r.k4 || '', r.k5 || '', r.k6 || '', r.k7 || '', r.catatan || '', r.tindakan || ''
+  ]);
+  let worksheets = sheetXml('Laporan Monitoring', ['Tanggal','NO. BUS','Koridor','Jam Cek','Kamera 1','Kamera 2','Kamera 3','Kamera 4','Kamera 5','Kamera 6','Kamera 7','Status Akhir / Catatan','Tindakan'], rows);
+  if (includeMaster) {
+    worksheets += sheetXml('Master Armada', ['NO. BUS','Koridor','Jumlah Kamera'], masterArmada.map(a => [a.noBus, a.koridor, a.jumlahKamera]));
+    worksheets += sheetXml('Master Koridor', ['ID','Nama Koridor'], masterKoridor.map(k => [k.id, k.nama]));
+  }
+  const xml = `<?xml version="1.0"?>
+  <?mso-application progid="Excel.Sheet"?>
+  <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+   xmlns:o="urn:schemas-microsoft-com:office:office"
+   xmlns:x="urn:schemas-microsoft-com:office:excel"
+   xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+   xmlns:html="http://www.w3.org/TR/REC-html40">
+   <Styles>
+     <Style ss:ID="hdr"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#2F6B57" ss:Pattern="Solid"/></Style>
+   </Styles>
+   ${worksheets}
+  </Workbook>`;
+  const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = includeMaster ? `monitoring_cctv_transjatim_lengkap_${el('fTanggal').value || 'semua'}.xls` : `monitoring_cctv_transjatim_${el('fTanggal').value || 'semua'}.xls`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+el('exportReportBtn').addEventListener('click', () => exportWorkbook(false));
+el('exportAllBtn').addEventListener('click', () => exportWorkbook(true));
+el('resetBtn').addEventListener('click', () => {
+  if (confirm('Hapus data monitoring yang tersimpan di browser dan kembali ke contoh awal?')) {
+    localStorage.removeItem(storageKey);
+    logs = JSON.parse(JSON.stringify(sampleLogs));
+    render();
+  }
+});
+el('fTanggal').addEventListener('input', render);
+el('fKoridor').addEventListener('change', render);
+el('fCari').addEventListener('input', render);
+busEl.addEventListener('change', updateKoridorByBus);
+
+(function init(){
+  populateSelects();
+  const today = new Date().toISOString().slice(0,10);
+  el('tanggal').value = today;
+  el('fTanggal').value = today;
+  el('jam').value = '10:02';
+  updateKoridorByBus();
+  render();
+})();
+</script>
+</body>
+</html>
