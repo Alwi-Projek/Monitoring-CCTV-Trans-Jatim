@@ -215,7 +215,7 @@
 <div class="wrap">
   <div class="topbar">
     <div><h1>Monitoring Fasilitas Armada Trans Jatim</h1><p>Status armada saat ini, progres vendor, dan lama penanganan gangguan.</p></div>
-    <button class="btn primary" id="exportBtn">Export Excel</button>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span style="background:rgba(255,255,255,.18);padding:8px 12px;border-radius:999px;font-weight:700">Supabase Connected</span><button class="btn primary" id="exportBtn">Export Excel</button></div>
   </div>
 
   <div class="grid">
@@ -374,7 +374,13 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "https://kxrkjfoskbdcxzvxhulj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_qw6Ml032cf4I085NPx9Q0A_7V-0Xxdb";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let isRemoteReady = false;
+
 const TODAY = new Date().toISOString().slice(0,10);
 const statusOptions = ["Berfungsi","Berfungsi Dengan Catatan","Tidak Berfungsi","-"];
 const koridorOrder = ["Koridor 1","Koridor 1 - Malang Raya","Koridor 2","Koridor 3","Koridor 4","Koridor 5","Koridor 6","Koridor 7"];
@@ -419,11 +425,8 @@ const initialRecords = [
   seedRecord("JTM 708","Koridor 7",{kamera1:"Tidak Berfungsi",kamera2:"Tidak Berfungsi",kamera3:"Tidak Berfungsi",kamera4:"Tidak Berfungsi",kamera5:"Tidak Berfungsi",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",tglMulaiGangguan:TODAY,catatan:"Tidak dapat diakses"})
 ];
 
-let records = JSON.parse(localStorage.getItem("transjatim_monitoring_fasilitas_v6") || "null");
-if(!records){
-  records = masterBus.map(({busId, koridor}) => initialRecords.find(r => r.busId===busId) || seedRecord(busId, koridor));
-  saveRecords();
-}
+let quickFilterMode = 'Semua';
+let records = [];
 
 const el = {
   koridor:document.getElementById('koridor'), busId:document.getElementById('busId'), jamCek:document.getElementById('jamCek'),
@@ -450,7 +453,121 @@ const el = {
   modalSaveBtn:document.getElementById('modalSaveBtn'), closeModal:document.getElementById('closeModal')
 };
 
-function saveRecords(){ localStorage.setItem("transjatim_monitoring_fasilitas_v6", JSON.stringify(records)); }
+function recordToRow(r){
+  return {
+    bus_id: r.busId,
+    koridor: r.koridor,
+    jam_cek: r.jamCek,
+    status_ringkas: r.statusRingkas,
+    tindakan: r.tindakan,
+    vendor_status: r.vendorStatus,
+    tgl_mulai_gangguan: r.tglMulaiGangguan || null,
+    tgl_info_vendor: r.tglInfoVendor || null,
+    tgl_selesai: r.tglSelesai || null,
+    lama_penanganan: r.lamaPenanganan || '',
+    last_update: r.lastUpdate || TODAY,
+    pic_vendor: r.picVendor || '',
+    catatan: r.catatan || '',
+    lampiran: r.lampiran || [],
+    history: r.history || [],
+    data_item: {
+      kamera1: r.kamera1,
+      kamera2: r.kamera2,
+      kamera3: r.kamera3,
+      kamera4: r.kamera4,
+      kamera5: r.kamera5,
+      kamera6: r.kamera6,
+      kamera7: r.kamera7,
+      videoTron: r.videoTron,
+      runningText: r.runningText,
+      obu: r.obu,
+      gps: r.gps
+    }
+  };
+}
+
+function rowToRecord(row){
+  return {
+    busId: row.bus_id,
+    koridor: row.koridor,
+    jamCek: row.jam_cek || "10:02",
+    statusRingkas: row.status_ringkas || "Berfungsi Normal",
+    tindakan: row.tindakan || "Berfungsi Normal",
+    vendorStatus: row.vendor_status || "Belum Diinfokan",
+    tglMulaiGangguan: row.tgl_mulai_gangguan || "",
+    tglInfoVendor: row.tgl_info_vendor || "",
+    tglSelesai: row.tgl_selesai || "",
+    lamaPenanganan: row.lama_penanganan || "",
+    lastUpdate: row.last_update || TODAY,
+    picVendor: row.pic_vendor || "",
+    catatan: row.catatan || "",
+    lampiran: row.lampiran || [],
+    history: row.history || [],
+    ...(row.data_item || {})
+  };
+}
+
+async function seedSupabaseIfEmpty(){
+  const seeded = masterBus.map(({busId, koridor}) => initialRecords.find(r => r.busId===busId) || seedRecord(busId, koridor));
+  const { error } = await supabaseClient
+    .from("armada_status")
+    .upsert(seeded.map(recordToRow), { onConflict: "bus_id" });
+  if(error){
+    console.error("Seed gagal:", error);
+    alert("Gagal membuat data awal di Supabase. Cek policy/RLS Supabase.");
+    return false;
+  }
+  return true;
+}
+
+async function loadFromSupabase(){
+  const { data, error } = await supabaseClient
+    .from("armada_status")
+    .select("*")
+    .order("bus_id", { ascending: true });
+
+  if(error){
+    console.error("Load gagal:", error);
+    alert("Gagal load data dari Supabase. Pastikan tabel dan policy sudah benar.");
+    return;
+  }
+
+  if(!data || data.length === 0){
+    const ok = await seedSupabaseIfEmpty();
+    if(ok) return loadFromSupabase();
+    return;
+  }
+
+  records = data.map(rowToRecord);
+  isRemoteReady = true;
+  if(el && el.busId && el.busId.value) loadRecordToForm(el.busId.value);
+  renderTable();
+}
+
+async function saveRecordToSupabase(r){
+  const { error } = await supabaseClient
+    .from("armada_status")
+    .upsert(recordToRow(r), { onConflict: "bus_id" });
+
+  if(error){
+    console.error("Save gagal:", error);
+    alert("Gagal simpan data ke Supabase. Cek koneksi atau policy.");
+    return false;
+  }
+  return true;
+}
+
+async function saveRecords(){
+  if(!isRemoteReady) return;
+  const rows = records.map(recordToRow);
+  const { error } = await supabaseClient
+    .from("armada_status")
+    .upsert(rows, { onConflict: "bus_id" });
+  if(error){
+    console.error("Save all gagal:", error);
+    alert("Gagal simpan data ke Supabase.");
+  }
+}
 function fillStatusSelect(select){ select.innerHTML = statusOptions.map(v => `<option>${v}</option>`).join(''); }
 ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7','videoTron','runningText','obu','gps'].forEach(id => fillStatusSelect(el[id]));
 
@@ -503,7 +620,12 @@ function filteredRecords(){
   return records.filter(r => {
     const hay = `${r.busId} ${r.koridor} ${r.catatan || ''} ${r.picVendor || ''}`.toLowerCase();
     const okOpen = openCase === 'Semua' ? true : (openCase === 'Hanya Open Case' ? r.tindakan === 'Butuh Perbaikan' : r.tindakan === 'Berfungsi Normal');
+    const quickOk = quickFilterMode === 'Semua' ? true :
+      quickFilterMode === 'Open' ? r.tindakan === 'Butuh Perbaikan' :
+      quickFilterMode === 'Overdue' ? (r.tindakan === 'Butuh Perbaikan' && daysNumber(r.lamaPenanganan) >= 7) :
+      quickFilterMode === 'Normal' ? r.statusRingkas === 'Berfungsi Normal' : true;
     return (q ? hay.includes(q) : true)
+      && quickOk
       && (tindakan === 'Semua Tindakan' ? true : r.tindakan === tindakan)
       && okOpen
       && (status === 'Semua Status' ? true : r.statusRingkas === status)
@@ -534,6 +656,11 @@ function renderSummary(rows){
   rows.forEach(r => { counts[r.koridor].total += 1; if(r.tindakan === 'Butuh Perbaikan'){ counts[r.koridor].bad += 1; openCase += 1; if(daysNumber(r.lamaPenanganan) >= 7) overdue += 1; } });
   el.summaryChips.innerHTML = koridorOrder.filter(k => counts[k].total > 0).map(k => `<div class="chip">${k}: ${counts[k].total} armada, ${counts[k].bad} butuh perbaikan</div>`).join('');
   el.priorityChips.innerHTML = `<div class="chip">Open Case: ${openCase}</div><div class="chip">Overdue 7+ hari: ${overdue}</div>`;
+  if(el.vendorDashboard){
+    const vendor = {'Belum Diinfokan':0,'Sudah Diinfokan':0,'Progress Vendor':0,'Selesai Vendor':0};
+    rows.forEach(r => { if(vendor[r.vendorStatus] !== undefined) vendor[r.vendorStatus] += 1; });
+    el.vendorDashboard.innerHTML = Object.entries(vendor).map(([k,v]) => `<div class="vendor-box">${k}<b>${v}</b></div>`).join('');
+  }
 }
 function renderTable(){
   const rows = filteredRecords(); renderStats(rows); renderSummary(rows);
@@ -578,7 +705,7 @@ window.quickToggle = function(busId){
   } else {
     r.tindakan = 'Butuh Perbaikan'; r.statusRingkas = 'Butuh Perbaikan'; r.tglMulaiGangguan = r.tglMulaiGangguan || TODAY; r.tglSelesai = ''; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, ''); pushHistory(r, 'Aksi cepat: buka kasus');
   }
-  r.lastUpdate = TODAY; saveRecords(); renderTable();
+  r.lastUpdate = TODAY; saveRecordToSupabase(r); renderTable();
 }
 function saveFromModal(){
   if(!window.currentModalBusId) return;
@@ -591,7 +718,7 @@ function saveFromModal(){
   if(r.tindakan === 'Butuh Perbaikan'){ r.tglMulaiGangguan = r.tglMulaiGangguan || TODAY; r.tglSelesai = ''; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, ''); }
   else if(r.tglMulaiGangguan){ r.tglSelesai = TODAY; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, TODAY); }
   else { r.tglSelesai = ''; r.lamaPenanganan = ''; }
-  r.lastUpdate = TODAY; pushHistory(r, `Update dari popup: ${r.statusRingkas}, tindakan ${r.tindakan}`); saveRecords(); renderTable(); loadRecordToForm(r.busId); openDetail(r.busId);
+  r.lastUpdate = TODAY; pushHistory(r, `Update dari popup: ${r.statusRingkas}, tindakan ${r.tindakan}`); saveRecordToSupabase(r); renderTable(); loadRecordToForm(r.busId); openDetail(r.busId);
 }
 function exportExcel(){
   const rows = filteredRecords();
@@ -628,14 +755,26 @@ el.formArmada.addEventListener('submit', function(e){
   if(r.tindakan === 'Butuh Perbaikan'){ r.tglMulaiGangguan = manualGangguan || r.tglMulaiGangguan || TODAY; r.tglSelesai = ''; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, ''); }
   else if(manualGangguan || r.tglMulaiGangguan){ if(manualGangguan) r.tglMulaiGangguan = manualGangguan; r.tglSelesai = TODAY; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, TODAY); }
   else { r.tglSelesai = ''; r.lamaPenanganan = ''; }
-  pushHistory(r, `Update dari panel kiri: ${r.statusRingkas}, tindakan ${r.tindakan}`); saveRecords(); renderTable(); loadRecordToForm(r.busId); alert('Status armada berhasil diupdate.');
+  pushHistory(r, `Update dari panel kiri: ${r.statusRingkas}, tindakan ${r.tindakan}`); saveRecordToSupabase(r); renderTable(); loadRecordToForm(r.busId); alert('Status armada berhasil diupdate.');
 });
 
-initDropdowns(); loadRecordToForm(masterBus[0].busId); renderTable();
+async function bootstrap(){
+  initDropdowns();
+  await loadFromSupabase();
+
+  try{
+    supabaseClient
+      .channel('armada-status-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'armada_status' }, () => loadFromSupabase())
+      .subscribe();
+  }catch(e){
+    console.warn('Realtime belum aktif:', e);
+  }
+}
+bootstrap();
 
 </script>
 
-<
 <div id="overlay" class="overlay"></div>
 <script>
 (function(){
