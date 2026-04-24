@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monitoring Fasilitas Armada - Trans Jatim</title>
+  <title>Monitoring Fasilitas Armada Trans Jatim</title>
   <style>
     :root{
       --bg:#f4f7fb;--card:#ffffff;--line:#d8e0ea;--text:#16324a;--muted:#6b7d90;
@@ -11,37 +11,213 @@
       --warn-bg:#fff1bf;--warn-text:#8a6400;--bad-bg:#ffd7d7;--bad-text:#a31919;
       --shadow:0 10px 30px rgba(27,55,90,.08);--radius:18px;
     }
-    *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef4f8 0%,#f8fbfd 100%)}
-    .wrap{max-width:1500px;margin:0 auto;padding:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .topbar{background:linear-gradient(135deg,var(--header) 0%,var(--header-dark) 100%);color:#fff;border-radius:24px;padding:22px 24px;box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
-    .topbar h1{margin:0;font-size:28px}.topbar p{margin:6px 0 0;color:#d8f0e6}.actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{border:none;border-radius:14px;padding:11px 16px;font-weight:700;cursor:pointer}.btn.primary{background:#fff;color:var(--header-dark)}.btn.secondary{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.22)}
-    .grid{margin-top:18px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.stat{padding:18px}.stat .label{color:var(--muted);font-size:13px;margin-bottom:8px}.stat .value{font-size:32px;font-weight:800}
-    .layout{display:grid;grid-template-columns:380px 1fr;gap:18px;margin-top:18px}.section{padding:20px}.section h2,.section h3{margin:0 0 8px}.desc{color:var(--muted);font-size:14px;margin:0 0 16px}
-    .field{margin-bottom:12px}.field label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px;font-weight:700}.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:14px}.field textarea{min-height:88px;resize:vertical}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.helper{margin-top:14px;padding:12px 14px;border-radius:14px;background:#eef7f2;border:1px dashed #b9d9cb;color:#355a4c;font-size:13px;line-height:1.5}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef4f8 0%,#f8fbfd 100%)}
+    .wrap{max-width:1500px;margin:0 auto;padding:20px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .topbar{background:linear-gradient(135deg,var(--header) 0%,var(--header-dark) 100%);color:#fff;border-radius:24px;padding:22px 24px;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;box-shadow:var(--shadow)}
+    .topbar h1{margin:0;font-size:28px}.topbar p{margin:6px 0 0;color:#d8f0e6}
+    .btn{border:none;border-radius:14px;padding:11px 16px;font-weight:700;cursor:pointer}
+    .btn.primary{background:#fff;color:var(--header-dark)}
+    .btn.save{background:#1f6b57;color:#fff}
+    .grid{margin-top:18px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+    .stat{padding:18px}.stat .label{color:var(--muted);font-size:13px;margin-bottom:8px}.stat .value{font-size:32px;font-weight:800}
+    .layout{display:grid;grid-template-columns:390px 1fr;gap:18px;margin-top:18px}
+    .section{padding:20px}.section h2,.section h3{margin:0 0 8px}.desc{color:var(--muted);font-size:14px;margin:0 0 16px}
+    .field{margin-bottom:12px}.field label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px;font-weight:700}
+    .field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:14px}
+    .field textarea{min-height:88px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .helper{margin-top:14px;padding:12px 14px;border-radius:14px;background:#eef7f2;border:1px dashed #b9d9cb;color:#355a4c;font-size:13px;line-height:1.5}
     .toolbar{display:flex;justify-content:space-between;gap:12px;align-items:end;flex-wrap:wrap}.toolbar .filters{display:flex;gap:10px;flex-wrap:wrap}
-    .table-wrap{overflow:auto;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:1200px}th,td{padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
-    th{position:sticky;top:0;z-index:1;background:linear-gradient(180deg,#2c7b67,#226b59);color:#fff;white-space:nowrap}
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}.ok{background:var(--ok-bg);color:var(--ok-text)}.warn{background:var(--warn-bg);color:var(--warn-text)}.bad{background:var(--bad-bg);color:var(--bad-text)}.neutral{background:#e9eff5;color:#4f6275}
     .summary-chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 12px;border-radius:999px;background:#eff4f8;border:1px solid var(--line);font-size:13px;font-weight:700}
+    .table-wrap{overflow:auto;border-top:1px solid var(--line)} table{width:100%;border-collapse:collapse;min-width:1450px}
+    th,td{padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
+    th{position:sticky;top:0;z-index:3;background:linear-gradient(180deg,#2c7b67,#226b59);color:#fff;white-space:nowrap}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+    .ok{background:var(--ok-bg);color:var(--ok-text)} .warn{background:var(--warn-bg);color:var(--warn-text)} .bad{background:var(--bad-bg);color:var(--bad-text)} .neutral{background:#e9eff5;color:#4f6275}
+    .age-ok{background:#dff3da;color:#24713c;padding:6px 10px;border-radius:999px;font-weight:800}
+    .age-warn{background:#fff1bf;color:#8a6400;padding:6px 10px;border-radius:999px;font-weight:800}
+    .age-bad{background:#ffd7d7;color:#a31919;padding:6px 10px;border-radius:999px;font-weight:800}
     .detail-btn{border:none;background:#edf4ff;color:#1f5fbf;padding:8px 10px;border-radius:10px;font-weight:700;cursor:pointer}
+    .action-btn{border:none;background:#eef7f2;color:#1f6b57;padding:8px 10px;border-radius:10px;font-weight:700;cursor:pointer}
+    .sticky-col{position:sticky;left:0;background:#fff;z-index:2}.sticky-col-2{position:sticky;left:110px;background:#fff;z-index:2}
     .modal-backdrop{position:fixed;inset:0;background:rgba(8,18,32,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
     .modal{width:min(980px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;box-shadow:0 24px 60px rgba(0,0,0,.2)}
     .modal-header{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;position:sticky;top:0;background:#fff}
     .modal-body{padding:20px}.close-btn{background:#eff4f8;border:none;border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:700}
     .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.mini{background:#f7fafc;border:1px solid var(--line);border-radius:16px;padding:12px}.mini .k{font-size:12px;color:var(--muted);margin-bottom:6px}.mini .v{font-weight:800}
-    .camera-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.attachment-box{border:1px dashed #b9c6d3;background:#f8fbfd;border-radius:16px;padding:12px;margin-top:10px}.footer-note{margin-top:14px;color:var(--muted);font-size:12px}
+    .camera-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .attachment-box{border:1px dashed #b9c6d3;background:#f8fbfd;border-radius:16px;padding:12px;margin-top:10px}.history-list{margin:0;padding-left:18px}.history-list li{margin:6px 0;color:#42586e}.mini-select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:13px}
+    .footer-note{margin-top:14px;color:var(--muted);font-size:12px}
     @media (max-width:1200px){.grid{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}.kv,.camera-grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:700px){.grid{grid-template-columns:1fr}.grid2,.kv,.camera-grid{grid-template-columns:1fr}.topbar h1{font-size:22px}}
-  </style>
+  
+.side-panel{
+  position:fixed;
+  top:0;
+  right:-460px;
+  width:420px;
+  max-width:92vw;
+  height:100%;
+  background:#fff;
+  box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+  z-index:50;
+  transition:right .3s ease;
+  overflow:auto;
+  padding:20px;
+}
+.side-panel.active{ right:0; }
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  z-index:40;
+}
+.overlay.active{ display:block; }
+
+
+.kpi-dashboard{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.kpi-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.kpi-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:5px;
+  background:#94a3b8;
+}
+.kpi-card.danger::before{ background:#dc2626; }
+.kpi-card.warning::before{ background:#f59e0b; }
+.kpi-card.success::before{ background:#16a34a; }
+.kpi-card.info::before{ background:#2563eb; }
+.kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+.kpi-value{
+  font-size:30px;
+  font-weight:900;
+}
+.kpi-sub{
+  margin-top:6px;
+  color:#6b7d90;
+  font-size:12px;
+}
+.priority-row-bad{ background:#fff5f5; }
+.priority-row-warn{ background:#fffaf0; }
+.priority-row-ok{ background:#ffffff; }
+.quick-filter-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.quick-filter{
+  border:1px solid var(--line);
+  background:#fff;
+  padding:7px 12px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:700;
+  color:#42586e;
+}
+.quick-filter.active{
+  background:#1f6b57;
+  color:#fff;
+  border-color:#1f6b57;
+}
+.vendor-grid{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.vendor-box{
+  background:#f8fbfd;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px;
+  font-size:13px;
+}
+.vendor-box b{
+  display:block;
+  font-size:20px;
+  margin-top:4px;
+}
+@media (max-width:1200px){
+  .kpi-dashboard{grid-template-columns:repeat(2,1fr)}
+  .vendor-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:700px){
+  .kpi-dashboard{grid-template-columns:1fr}
+  .vendor-grid{grid-template-columns:1fr}
+}
+
+/* Dashboard-focused layout */
+.layout{
+  display:block !important;
+  margin-top:18px;
+}
+.main-content{
+  width:100%;
+}
+.floating-form-btn{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:none;
+  background:#1f6b57;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 10px 28px rgba(31,107,87,.35);
+  z-index:60;
+}
+.floating-form-btn:hover{ background:#185444; transform:translateY(-1px); }
+.summary-chips{
+  gap:10px !important;
+}
+.chip{
+  padding:10px 16px !important;
+  border-radius:14px !important;
+  font-size:14px !important;
+}
+.card.section{
+  overflow:hidden;
+}
+.table-wrap{
+  max-height:calc(100vh - 360px);
+}
+
+</style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
     <div><h1>Monitoring Fasilitas Armada Trans Jatim</h1><p>Status armada saat ini, progres vendor, dan lama penanganan gangguan.</p></div>
-    <div class="actions"><button class="btn primary" id="exportBtn">Export Excel</button></div>
+    <button class="btn primary" id="exportBtn">Export Excel</button>
   </div>
+
   <div class="grid">
     <div class="card stat"><div class="label">Total Armada</div><div class="value" id="statTotal">0</div></div>
     <div class="card stat"><div class="label">Berfungsi Normal</div><div class="value" id="statNormal">0</div></div>
@@ -49,45 +225,155 @@
     <div class="card stat"><div class="label">Butuh Perbaikan</div><div class="value" id="statPerbaikan">0</div></div>
     <div class="card stat"><div class="label">Koridor Aktif</div><div class="value" id="statKoridor">0</div></div>
   </div>
-  <div class="layout">
-    <div class="card section">
-      <h2>Input / Update Fasilitas</h2>
+  <div class="kpi-dashboard">
+    <div class="kpi-card danger">
+      <div class="kpi-label">Open Case Aktif</div>
+      <div class="kpi-value" id="kpiOpenCase">0</div>
+      <div class="kpi-sub">Unit yang masih membutuhkan perbaikan</div>
+    </div>
+    <div class="kpi-card warning">
+      <div class="kpi-label">Overdue 7+ Hari</div>
+      <div class="kpi-value" id="kpiOverdue">0</div>
+      <div class="kpi-sub">Prioritas eskalasi ke vendor</div>
+    </div>
+    <div class="kpi-card info">
+      <div class="kpi-label">Sudah Info Vendor</div>
+      <div class="kpi-value" id="kpiVendorInfo">0</div>
+      <div class="kpi-sub">Kasus yang sudah diteruskan ke vendor</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Normal / Selesai</div>
+      <div class="kpi-value" id="kpiNormal">0</div>
+      <div class="kpi-sub">Unit dengan status berfungsi normal</div>
+    </div>
+  </div>
+
+  <button class="floating-form-btn" id="openManualFormBtn" title="Form Manual">⚙️</button>
+  <div id="sidePanel" class="side-panel">
+    <button class="close-btn" id="closePanelBtn" style="margin-bottom:10px">Tutup ✕</button>
+    <h2>Input / Update Fasilitas (Manual)</h2>
       <p class="desc">Pilih koridor dulu agar pemilihan bus lebih cepat. Tanggal disimpan otomatis sebagai update terakhir.</p>
       <form id="formArmada">
-        <div class="grid2"><div class="field"><label>Koridor</label><select id="koridor"></select></div><div class="field"><label>NO. BUS</label><select id="busId"></select></div></div>
-        <div class="grid2"><div class="field"><label>Jam Cek</label><input id="jamCek" type="time" value="10:02" /></div><div class="field"><label>Status Ringkas</label><select id="statusRingkas"><option>Berfungsi Normal</option><option>Perlu Pantauan</option><option>Butuh Perbaikan</option></select></div></div>
         <div class="grid2">
-          <div class="field"><label>Kamera 1</label><select id="kamera1"></select></div><div class="field"><label>Kamera 2</label><select id="kamera2"></select></div>
-          <div class="field"><label>Kamera 3</label><select id="kamera3"></select></div><div class="field"><label>Kamera 4</label><select id="kamera4"></select></div>
-          <div class="field"><label>Kamera 5</label><select id="kamera5"></select></div><div class="field"><label>Kamera 6</label><select id="kamera6"></select></div>
-          <div class="field"><label>Kamera 7</label><select id="kamera7"></select></div><div class="field"><label>Video Tron</label><select id="videoTron"></select></div>
-          <div class="field"><label>Running Text</label><select id="runningText"></select></div><div class="field"><label>OBU</label><select id="obu"></select></div>
-          <div class="field"><label>GPS (AJAIB)</label><select id="gps"></select></div><div class="field"><label>Tindakan</label><select id="tindakan"><option>Berfungsi Normal</option><option>Butuh Perbaikan</option></select></div>
+          <div class="field"><label>Koridor</label><select id="koridor"></select></div>
+          <div class="field"><label>NO. BUS</label><select id="busId"></select></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Jam Cek</label><input id="jamCek" type="time" value="10:02" /></div>
+          <div class="field"><label>Tanggal Gangguan</label><input id="tglGangguanInput" type="date" /></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Status Ringkas</label><select id="statusRingkas"><option>Berfungsi Normal</option><option>Perlu Pantauan</option><option>Butuh Perbaikan</option></select></div>
+          <div class="field"><label>Tindakan</label><select id="tindakan"><option>Berfungsi Normal</option><option>Butuh Perbaikan</option></select></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Kamera 1</label><select id="kamera1"></select></div>
+          <div class="field"><label>Kamera 2</label><select id="kamera2"></select></div>
+          <div class="field"><label>Kamera 3</label><select id="kamera3"></select></div>
+          <div class="field"><label>Kamera 4</label><select id="kamera4"></select></div>
+          <div class="field"><label>Kamera 5</label><select id="kamera5"></select></div>
+          <div class="field"><label>Kamera 6</label><select id="kamera6"></select></div>
+          <div class="field"><label>Kamera 7</label><select id="kamera7"></select></div>
+          <div class="field"><label>Video Tron</label><select id="videoTron"></select></div>
+          <div class="field"><label>Running Text</label><select id="runningText"></select></div>
+          <div class="field"><label>OBU</label><select id="obu"></select></div>
+          <div class="field"><label>GPS (AJAIB)</label><select id="gps"></select></div>
+          <div class="field"><label>Status Vendor</label><select id="vendorStatus"><option>Belum Diinfokan</option><option>Sudah Diinfokan</option><option>Progress Vendor</option><option>Selesai Vendor</option></select></div>
+          <div class="field"><label>Tanggal Info Vendor</label><input id="tglInfoVendor" type="date" /></div>
+          <div class="field"><label>PIC Vendor</label><input id="picVendor" placeholder="Nama PIC vendor" /></div>
         </div>
         <div class="field"><label>Catatan</label><textarea id="catatan" placeholder="Catatan kondisi armada"></textarea></div>
         <div class="field"><label>Lampiran (satu per baris)</label><textarea id="lampiran" placeholder="Contoh: Foto kamera depan&#10;Screenshot GPS&#10;WA Vendor"></textarea></div>
-        <button class="btn" style="width:100%;background:var(--header);color:#fff" type="submit">Simpan / Update Status Armada</button>
-      </form>
-      <div class="helper">Logika tanggal otomatis:<br>- Saat status menjadi <b>Butuh Perbaikan</b>, sistem mengisi <b>Tanggal Mulai Gangguan</b> jika sebelumnya kosong.<br>- Saat status menjadi <b>Berfungsi Normal</b>, sistem mengisi <b>Tanggal Selesai</b>.<br>- Tabel utama menampilkan <b>Last Update</b>, bukan monitoring harian.</div>
+        <button class="btn save" style="width:100%" type="submit">Simpan / Update Status Armada</button>
+      </form></div>
     </div>
-    <div>
+
+    <div class="main-content">
       <div class="card section" style="margin-bottom:14px">
         <div class="toolbar">
-          <div><h3>Tabel Monitoring Fasilitas</h3><p class="desc">Fokus pada status armada saat ini. Detail lengkap dibuka lewat popup.</p></div>
+          <div><h3>Tabel Monitoring Fasilitas</h3><p class="desc">Fokus pada status armada saat ini. Detail lengkap dibuka lewat popup.</p><div class="quick-filter-bar"><button class="quick-filter active" data-qf="Semua">Semua</button><button class="quick-filter" data-qf="Open">Open Case</button><button class="quick-filter" data-qf="Overdue">Overdue</button><button class="quick-filter" data-qf="Normal">Normal</button></div></div>
           <div class="filters">
-            <div class="field" style="margin:0;min-width:220px"><label>Cari</label><input id="searchInput" placeholder="NO. BUS, koridor, catatan" /></div>
-            <div class="field" style="margin:0;min-width:180px"><label>Filter Tindakan</label><select id="filterTindakan"><option>Semua Tindakan</option><option>Berfungsi Normal</option><option>Butuh Perbaikan</option></select></div>
-            <div class="field" style="margin:0;min-width:180px"><label>Filter Status Ringkas</label><select id="filterStatus"><option>Semua Status</option><option>Berfungsi Normal</option><option>Perlu Pantauan</option><option>Butuh Perbaikan</option></select></div>
-            <div class="field" style="margin:0;min-width:180px"><label>Filter Koridor</label><select id="filterKoridor"></select></div>
+            <div class="field" style="margin:0;min-width:220px"><label>Cari</label><input id="searchInput" placeholder="NO. BUS, koridor, catatan, PIC vendor" /></div>
+            <div class="field" style="margin:0;min-width:170px"><label>Filter Tindakan</label><select id="filterTindakan"><option>Semua Tindakan</option><option>Berfungsi Normal</option><option>Butuh Perbaikan</option></select></div>
+            <div class="field" style="margin:0;min-width:170px"><label>Filter Open Case</label><select id="filterOpenCase"><option>Semua</option><option>Hanya Open Case</option><option>Selesai</option></select></div>
+            <div class="field" style="margin:0;min-width:170px"><label>Filter Status Ringkas</label><select id="filterStatus"><option>Semua Status</option><option>Berfungsi Normal</option><option>Perlu Pantauan</option><option>Butuh Perbaikan</option></select></div>
+            <div class="field" style="margin:0;min-width:170px"><label>Filter Koridor</label><select id="filterKoridor"></select></div>
           </div>
         </div>
       </div>
-      <div class="card section" style="margin-bottom:14px"><h3>Ringkasan Cepat</h3><div class="summary-chips" id="summaryChips"></div></div>
-      <div class="card"><div class="table-wrap"><table><thead><tr><th>NO. BUS</th><th>Koridor</th><th>Jam Cek</th><th>Status Ringkas</th><th>Tgl Mulai Gangguan</th><th>Tgl Selesai</th><th>Lama Penanganan</th><th>Last Update</th><th>Lampiran</th><th>Tindakan</th><th>Detail</th></tr></thead><tbody id="tableBody"></tbody></table></div></div>
+
+      <div class="card section" style="margin-bottom:14px">
+        <h3>Ringkasan Cepat</h3>
+        <div class="summary-chips" id="summaryChips"></div>
+        <div class="vendor-grid" id="vendorDashboard"></div>
+        <div class="summary-chips" style="margin-top:10px" id="priorityChips"></div>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>NO. BUS</th>
+                <th>Koridor</th>
+                <th>Jam Cek</th>
+                <th>Status Ringkas</th>
+                <th>Tgl Mulai Gangguan</th>
+                <th>Tgl Info Vendor</th>
+                <th>Tgl Selesai</th>
+                <th>Lama Penanganan</th>
+                <th>Last Update</th>
+                <th>Lampiran</th>
+                <th>Tindakan</th>
+                <th>Aksi Cepat</th>
+                <th>Detail / Update</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <div><h3 id="modalTitle" style="margin:0">Detail Armada</h3><div class="desc" id="modalSubtitle" style="margin:4px 0 0"></div></div>
+      <div style="display:flex;gap:8px"><button class="btn save" id="modalSaveBtn">Simpan Update</button><button class="close-btn" id="closeModal">Tutup</button></div>
+    </div>
+    <div class="modal-body">
+      <div class="kv" id="modalKv"></div>
+      <h3 style="margin:8px 0 12px">Status Per Item</h3>
+      <div class="camera-grid" id="modalItems"></div>
+      <div class="attachment-box">
+        <h3 style="margin:0 0 8px">Ringkasan Saat Ini</h3>
+        <div id="modalCatatan"></div>
+        <h3 style="margin:12px 0 8px">Lampiran</h3>
+        <div id="modalLampiran"></div>
+      </div>
+      <div class="attachment-box">
+        <h3 style="margin:0 0 8px">Histori Update</h3>
+        <ul class="history-list" id="modalHistory"></ul>
+      </div>
+      <div class="attachment-box">
+        <h3 style="margin:0 0 8px">Update Cepat</h3>
+        <div class="grid2">
+          <div class="field"><label>Status Ringkas</label><select id="modalStatusRingkas"><option>Berfungsi Normal</option><option>Perlu Pantauan</option><option>Butuh Perbaikan</option></select></div>
+          <div class="field"><label>Tindakan</label><select id="modalTindakan"><option>Berfungsi Normal</option><option>Butuh Perbaikan</option></select></div>
+          <div class="field"><label>Status Vendor</label><select id="modalVendorStatus"><option>Belum Diinfokan</option><option>Sudah Diinfokan</option><option>Progress Vendor</option><option>Selesai Vendor</option></select></div>
+          <div class="field"><label>Tanggal Gangguan</label><input id="modalTglGangguan" type="date" /></div>
+          <div class="field"><label>Tanggal Info Vendor</label><input id="modalTglInfoVendor" type="date" /></div>
+          <div class="field"><label>PIC Vendor</label><input id="modalPicVendor" /></div>
+        </div>
+        <div class="field"><label>Catatan</label><textarea id="modalCatatanInput"></textarea></div>
+        <div class="field"><label>Lampiran (satu per baris)</label><textarea id="modalLampiranInput"></textarea></div>
+      </div>
+      <div class="footer-note">Popup ini bisa dipakai untuk lihat sekaligus update tanpa kembali ke panel kiri.</div>
     </div>
   </div>
 </div>
-<div class="modal-backdrop" id="modalBackdrop"><div class="modal"><div class="modal-header"><div><h3 id="modalTitle" style="margin:0">Detail Armada</h3><div class="desc" id="modalSubtitle" style="margin:4px 0 0"></div></div><button class="close-btn" id="closeModal">Tutup</button></div><div class="modal-body"><div class="kv" id="modalKv"></div><h3 style="margin:8px 0 12px">Status Per Item</h3><div class="camera-grid" id="modalItems"></div><div class="attachment-box"><h3 style="margin:0 0 8px">Catatan</h3><div id="modalCatatan"></div><h3 style="margin:12px 0 8px">Lampiran</h3><div id="modalLampiran"></div></div><div class="footer-note">Detail ini bersifat ringkas untuk membaca cepat. Update dilakukan dari panel kiri.</div></div></div></div>
+
 <script>
 const TODAY = new Date().toISOString().slice(0,10);
 const statusOptions = ["Berfungsi","Berfungsi Dengan Catatan","Tidak Berfungsi","-"];
@@ -101,11 +387,20 @@ for(let i=401;i<=415;i++) masterBus.push({busId:`JTM ${i}`, koridor:"Koridor 4"}
 for(let i=501;i<=515;i++) masterBus.push({busId:`JTM ${i}`, koridor:"Koridor 5"});
 for(let i=601;i<=615;i++) masterBus.push({busId:`JTM ${i}`, koridor:"Koridor 6"});
 for(let i=701;i<=715;i++) masterBus.push({busId:`JTM ${i}`, koridor:"Koridor 7"});
-const defaultStatusPack = (koridor) => ({kamera1:"Berfungsi",kamera2:"Berfungsi",kamera3:"Berfungsi",kamera4:"Berfungsi",kamera5:"Berfungsi",kamera6: koridor==="Koridor 4" ? "Berfungsi" : "-",kamera7: koridor==="Koridor 4" ? "Berfungsi" : "-",videoTron:"-",runningText:"-",obu:"-",gps:"-"});
-function seedRecord(busId, koridor, overrides={}){ return {busId,koridor,jamCek:"10:02",statusRingkas:"Berfungsi Normal",tindakan:"Berfungsi Normal",tglMulaiGangguan:"",tglSelesai:"",lamaPenanganan:"",lastUpdate:TODAY,catatan:"",lampiran:[],...defaultStatusPack(koridor),...overrides}; }
+
+const defaultStatusPack = (koridor) => ({
+  kamera1:"Berfungsi",kamera2:"Berfungsi",kamera3:"Berfungsi",kamera4:"Berfungsi",kamera5:"Berfungsi",
+  kamera6: koridor==="Koridor 4" ? "Berfungsi" : "-",
+  kamera7: koridor==="Koridor 4" ? "Berfungsi" : "-",
+  videoTron:"-",runningText:"-",obu:"-",gps:"-"
+});
+
+function seedRecord(busId, koridor, overrides={}){
+  return {busId,koridor,jamCek:"10:02",statusRingkas:"Berfungsi Normal",tindakan:"Berfungsi Normal",vendorStatus:"Belum Diinfokan",tglInfoVendor:"",picVendor:"",tglMulaiGangguan:"",tglSelesai:"",lamaPenanganan:"",lastUpdate:TODAY,catatan:"",lampiran:[],history:["Data awal dibuat"],...defaultStatusPack(koridor),...overrides};
+}
 
 const initialRecords = [
-  seedRecord("JTM 101","Koridor 1",{kamera3:"Berfungsi Dengan Catatan",kamera4:"Tidak Berfungsi",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",tglMulaiGangguan:TODAY,catatan:"1. Kamera 3 berfungsi namun buram (tidak terlihat jelas)\n2. Kamera 4 loading lama (tidak muncul)"}),
+  seedRecord("JTM 101","Koridor 1",{kamera3:"Berfungsi Dengan Catatan",kamera4:"Tidak Berfungsi",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",vendorStatus:"Sudah Diinfokan",tglInfoVendor:TODAY,tglMulaiGangguan:TODAY,catatan:"1. Kamera 3 berfungsi namun buram (tidak terlihat jelas)\n2. Kamera 4 loading lama (tidak muncul)"}),
   seedRecord("JTM 105","Koridor 1",{kamera3:"Tidak Berfungsi",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",tglMulaiGangguan:TODAY,catatan:"Kamera 3 mati (video loss)"}),
   seedRecord("JTM 110","Koridor 1",{kamera1:"Tidak Berfungsi",kamera3:"Berfungsi Dengan Catatan",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",tglMulaiGangguan:TODAY,catatan:"1. Kamera 1 loss\n2. Kamera 3 buram"}),
   seedRecord("JTM 113","Koridor 1",{kamera2:"Tidak Berfungsi",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",tglMulaiGangguan:TODAY,catatan:"Kamera 2 loss"}),
@@ -123,96 +418,246 @@ const initialRecords = [
   seedRecord("JTM 707","Koridor 7",{kamera1:"Tidak Berfungsi",kamera2:"Tidak Berfungsi",kamera3:"Tidak Berfungsi",kamera4:"Tidak Berfungsi",kamera5:"Tidak Berfungsi",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",tglMulaiGangguan:TODAY,catatan:"Tidak dapat diakses"}),
   seedRecord("JTM 708","Koridor 7",{kamera1:"Tidak Berfungsi",kamera2:"Tidak Berfungsi",kamera3:"Tidak Berfungsi",kamera4:"Tidak Berfungsi",kamera5:"Tidak Berfungsi",statusRingkas:"Butuh Perbaikan",tindakan:"Butuh Perbaikan",tglMulaiGangguan:TODAY,catatan:"Tidak dapat diakses"})
 ];
-let records = JSON.parse(localStorage.getItem("transjatim_monitoring_fasilitas_v4") || "null");
-if(!records){ records = masterBus.map(({busId, koridor}) => { const seeded = initialRecords.find(r => r.busId===busId); return seeded ? seeded : seedRecord(busId, koridor); }); saveRecords(); }
+
+let records = JSON.parse(localStorage.getItem("transjatim_monitoring_fasilitas_v6") || "null");
+if(!records){
+  records = masterBus.map(({busId, koridor}) => initialRecords.find(r => r.busId===busId) || seedRecord(busId, koridor));
+  saveRecords();
+}
+
 const el = {
-koridor:document.getElementById('koridor'),busId:document.getElementById('busId'),jamCek:document.getElementById('jamCek'),statusRingkas:document.getElementById('statusRingkas'),tindakan:document.getElementById('tindakan'),
-kamera1:document.getElementById('kamera1'),kamera2:document.getElementById('kamera2'),kamera3:document.getElementById('kamera3'),kamera4:document.getElementById('kamera4'),kamera5:document.getElementById('kamera5'),kamera6:document.getElementById('kamera6'),kamera7:document.getElementById('kamera7'),videoTron:document.getElementById('videoTron'),runningText:document.getElementById('runningText'),obu:document.getElementById('obu'),gps:document.getElementById('gps'),catatan:document.getElementById('catatan'),lampiran:document.getElementById('lampiran'),
-formArmada:document.getElementById('formArmada'),searchInput:document.getElementById('searchInput'),filterTindakan:document.getElementById('filterTindakan'),filterStatus:document.getElementById('filterStatus'),filterKoridor:document.getElementById('filterKoridor'),tableBody:document.getElementById('tableBody'),summaryChips:document.getElementById('summaryChips'),
-statTotal:document.getElementById('statTotal'),statNormal:document.getElementById('statNormal'),statPantauan:document.getElementById('statPantauan'),statPerbaikan:document.getElementById('statPerbaikan'),statKoridor:document.getElementById('statKoridor'),
-exportBtn:document.getElementById('exportBtn'),modalBackdrop:document.getElementById('modalBackdrop'),modalTitle:document.getElementById('modalTitle'),modalSubtitle:document.getElementById('modalSubtitle'),modalKv:document.getElementById('modalKv'),modalItems:document.getElementById('modalItems'),modalCatatan:document.getElementById('modalCatatan'),modalLampiran:document.getElementById('modalLampiran'),closeModal:document.getElementById('closeModal')
+  koridor:document.getElementById('koridor'), busId:document.getElementById('busId'), jamCek:document.getElementById('jamCek'),
+  tglGangguanInput:document.getElementById('tglGangguanInput'), statusRingkas:document.getElementById('statusRingkas'),
+  tindakan:document.getElementById('tindakan'), kamera1:document.getElementById('kamera1'), kamera2:document.getElementById('kamera2'),
+  kamera3:document.getElementById('kamera3'), kamera4:document.getElementById('kamera4'), kamera5:document.getElementById('kamera5'),
+  kamera6:document.getElementById('kamera6'), kamera7:document.getElementById('kamera7'), videoTron:document.getElementById('videoTron'),
+  runningText:document.getElementById('runningText'), obu:document.getElementById('obu'), gps:document.getElementById('gps'),
+  vendorStatus:document.getElementById('vendorStatus'), tglInfoVendor:document.getElementById('tglInfoVendor'), picVendor:document.getElementById('picVendor'),
+  catatan:document.getElementById('catatan'), lampiran:document.getElementById('lampiran'),
+  formArmada:document.getElementById('formArmada'), searchInput:document.getElementById('searchInput'),
+  filterTindakan:document.getElementById('filterTindakan'), filterOpenCase:document.getElementById('filterOpenCase'),
+  filterStatus:document.getElementById('filterStatus'), filterKoridor:document.getElementById('filterKoridor'),
+  tableBody:document.getElementById('tableBody'), summaryChips:document.getElementById('summaryChips'), priorityChips:document.getElementById('priorityChips'),
+  statTotal:document.getElementById('statTotal'), statNormal:document.getElementById('statNormal'), statPantauan:document.getElementById('statPantauan'),
+  statPerbaikan:document.getElementById('statPerbaikan'), statKoridor:document.getElementById('statKoridor'), kpiOpenCase:document.getElementById('kpiOpenCase'), kpiOverdue:document.getElementById('kpiOverdue'), kpiVendorInfo:document.getElementById('kpiVendorInfo'), kpiNormal:document.getElementById('kpiNormal'), vendorDashboard:document.getElementById('vendorDashboard'),
+  exportBtn:document.getElementById('exportBtn'), modalBackdrop:document.getElementById('modalBackdrop'), modalTitle:document.getElementById('modalTitle'),
+  modalSubtitle:document.getElementById('modalSubtitle'), modalKv:document.getElementById('modalKv'), modalItems:document.getElementById('modalItems'),
+  modalCatatan:document.getElementById('modalCatatan'), modalLampiran:document.getElementById('modalLampiran'), modalHistory:document.getElementById('modalHistory'),
+  modalStatusRingkas:document.getElementById('modalStatusRingkas'), modalTindakan:document.getElementById('modalTindakan'),
+  modalVendorStatus:document.getElementById('modalVendorStatus'), modalTglGangguan:document.getElementById('modalTglGangguan'),
+  modalTglInfoVendor:document.getElementById('modalTglInfoVendor'), modalPicVendor:document.getElementById('modalPicVendor'),
+  modalCatatanInput:document.getElementById('modalCatatanInput'), modalLampiranInput:document.getElementById('modalLampiranInput'),
+  modalSaveBtn:document.getElementById('modalSaveBtn'), closeModal:document.getElementById('closeModal')
 };
-function saveRecords(){ localStorage.setItem("transjatim_monitoring_fasilitas_v4", JSON.stringify(records)); }
+
+function saveRecords(){ localStorage.setItem("transjatim_monitoring_fasilitas_v6", JSON.stringify(records)); }
 function fillStatusSelect(select){ select.innerHTML = statusOptions.map(v => `<option>${v}</option>`).join(''); }
 ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7','videoTron','runningText','obu','gps'].forEach(id => fillStatusSelect(el[id]));
-function initDropdowns(){ el.koridor.innerHTML = koridorOrder.map(k => `<option>${k}</option>`).join(''); el.filterKoridor.innerHTML = '<option>Semua Koridor</option>' + koridorOrder.map(k => `<option>${k}</option>`).join(''); updateBusDropdown(); }
-function updateBusDropdown(){ const koridor = el.koridor.value; const list = masterBus.filter(b => b.koridor === koridor); el.busId.innerHTML = list.map(b => `<option>${b.busId}</option>`).join(''); loadRecordToForm(el.busId.value); }
-function getRecord(busId){ return records.find(r => r.busId === busId); }
-function loadRecordToForm(busId){ const rec = getRecord(busId); if(!rec) return; el.koridor.value = rec.koridor; el.busId.value = rec.busId; el.jamCek.value = rec.jamCek.replace('.',':'); el.statusRingkas.value = rec.statusRingkas; el.tindakan.value = rec.tindakan; ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7','videoTron','runningText','obu','gps','catatan'].forEach(k => el[k].value = rec[k] || ''); el.lampiran.value = (rec.lampiran || []).join('\n'); }
-function formatDisplayDate(iso){ if(!iso) return '-'; const [y,m,d] = iso.split('-'); return `${d}-${m}-${y}`; }
-function parseLampiran(text){ return text.split('\n').map(x=>x.trim()).filter(Boolean); }
-function calcDays(start,end){ if(!start) return ''; const s = new Date(start); const e = new Date(end || TODAY); return `${Math.floor((e - s)/(1000*60*60*24))} hari`; }
-function statusClass(status){ if(status === 'Berfungsi Normal') return 'ok'; if(status === 'Perlu Pantauan') return 'warn'; if(status === 'Butuh Perbaikan') return 'bad'; return 'neutral'; }
 
+function initDropdowns(){
+  el.koridor.innerHTML = koridorOrder.map(k => `<option>${k}</option>`).join('');
+  el.filterKoridor.innerHTML = '<option>Semua Koridor</option>' + koridorOrder.map(k => `<option>${k}</option>`).join('');
+  updateBusDropdown();
+}
+function updateBusDropdown(){
+  const list = masterBus.filter(b => b.koridor === el.koridor.value);
+  el.busId.innerHTML = list.map(b => `<option>${b.busId}</option>`).join('');
+  loadRecordToForm(el.busId.value);
+}
+function getRecord(busId){ return records.find(r => r.busId === busId); }
+function loadRecordToForm(busId){
+  const r = getRecord(busId); if(!r) return;
+  el.koridor.value = r.koridor; el.busId.value = r.busId; el.jamCek.value = r.jamCek.replace('.',':');
+  el.tglGangguanInput.value = r.tglMulaiGangguan || ''; el.statusRingkas.value = r.statusRingkas; el.tindakan.value = r.tindakan;
+  el.vendorStatus.value = r.vendorStatus || 'Belum Diinfokan'; el.tglInfoVendor.value = r.tglInfoVendor || ''; el.picVendor.value = r.picVendor || '';
+  ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7','videoTron','runningText','obu','gps','catatan'].forEach(k => el[k].value = r[k] || '');
+  el.lampiran.value = (r.lampiran || []).join('\n');
+}
+function formatDisplayDate(iso){ if(!iso) return '-'; const [y,m,d] = iso.split('-'); return `${d}-${m}-${y}`; }
+function parseLampiran(text){ return text.split('\n').map(x => x.trim()).filter(Boolean); }
+function calcDays(start,end){ if(!start) return ''; const s = new Date(start); const e = new Date(end || TODAY); return `${Math.floor((e-s)/(1000*60*60*24))} hari`; }
+function daysNumber(txt){ return txt ? parseInt(String(txt).replace(/\D/g,'')) || 0 : 0; }
+function agingClass(txt){ const n = daysNumber(txt); if(n >= 7) return 'age-bad'; if(n >= 3) return 'age-warn'; return 'age-ok'; }
+function statusClass(status){ if(status === 'Berfungsi Normal') return 'ok'; if(status === 'Perlu Pantauan') return 'warn'; if(status === 'Butuh Perbaikan') return 'bad'; return 'neutral'; }
+function autoGenerateCatatan(r){
+  const labels = {kamera1:'Kamera 1',kamera2:'Kamera 2',kamera3:'Kamera 3',kamera4:'Kamera 4',kamera5:'Kamera 5',kamera6:'Kamera 6',kamera7:'Kamera 7',videoTron:'Video Tron',runningText:'Running Text',obu:'OBU',gps:'GPS'};
+  const issues = [];
+  Object.keys(labels).forEach(k => {
+    const v = r[k];
+    if(v === 'Tidak Berfungsi') issues.push(`${labels[k]} tidak berfungsi`);
+    else if(v === 'Berfungsi Dengan Catatan') issues.push(`${labels[k]} perlu pantauan`);
+  });
+  return issues.join(', ');
+}
+function selectOptions(current){
+  return statusOptions.map(v => `<option value="${v}" ${v===current?'selected':''}>${v}</option>`).join('');
+}
+function pushHistory(r, text){
+  if(!r.history) r.history = [];
+  r.history.unshift(`${TODAY} • ${text}`);
+  r.history = r.history.slice(0, 20);
+}
 function filteredRecords(){
-  const q = el.searchInput.value.trim().toLowerCase(), tindakan = el.filterTindakan.value, status = el.filterStatus.value, koridor = el.filterKoridor.value;
+  const q = el.searchInput.value.trim().toLowerCase(), tindakan = el.filterTindakan.value, openCase = el.filterOpenCase.value, status = el.filterStatus.value, koridor = el.filterKoridor.value;
+  const priority = {'Butuh Perbaikan':0,'Perlu Pantauan':1,'Berfungsi Normal':2};
   return records.filter(r => {
-    const hay = `${r.busId} ${r.koridor} ${r.catatan || ''}`.toLowerCase();
+    const hay = `${r.busId} ${r.koridor} ${r.catatan || ''} ${r.picVendor || ''}`.toLowerCase();
+    const okOpen = openCase === 'Semua' ? true : (openCase === 'Hanya Open Case' ? r.tindakan === 'Butuh Perbaikan' : r.tindakan === 'Berfungsi Normal');
     return (q ? hay.includes(q) : true)
       && (tindakan === 'Semua Tindakan' ? true : r.tindakan === tindakan)
+      && okOpen
       && (status === 'Semua Status' ? true : r.statusRingkas === status)
       && (koridor === 'Semua Koridor' ? true : r.koridor === koridor);
-  }).sort((a,b) => a.busId.localeCompare(b.busId));
+  }).sort((a,b) => (priority[a.statusRingkas]-priority[b.statusRingkas]) || (daysNumber(b.lamaPenanganan)-daysNumber(a.lamaPenanganan)) || a.busId.localeCompare(b.busId));
 }
 function renderStats(rows){
-  el.statTotal.textContent = rows.length;
-  el.statNormal.textContent = rows.filter(r => r.statusRingkas === 'Berfungsi Normal').length;
-  el.statPantauan.textContent = rows.filter(r => r.statusRingkas === 'Perlu Pantauan').length;
-  el.statPerbaikan.textContent = rows.filter(r => r.statusRingkas === 'Butuh Perbaikan').length;
+  const total = rows.length;
+  const normal = rows.filter(r => r.statusRingkas === 'Berfungsi Normal').length;
+  const pantauan = rows.filter(r => r.statusRingkas === 'Perlu Pantauan').length;
+  const perbaikan = rows.filter(r => r.statusRingkas === 'Butuh Perbaikan').length;
+  const openCase = rows.filter(r => r.tindakan === 'Butuh Perbaikan').length;
+  const overdue = rows.filter(r => r.tindakan === 'Butuh Perbaikan' && daysNumber(r.lamaPenanganan) >= 7).length;
+  const vendorInfo = rows.filter(r => ['Sudah Diinfokan','Progress Vendor','Selesai Vendor'].includes(r.vendorStatus)).length;
+  el.statTotal.textContent = total;
+  el.statNormal.textContent = normal;
+  el.statPantauan.textContent = pantauan;
+  el.statPerbaikan.textContent = perbaikan;
   el.statKoridor.textContent = new Set(rows.map(r => r.koridor)).size;
+  if(el.kpiOpenCase) el.kpiOpenCase.textContent = openCase;
+  if(el.kpiOverdue) el.kpiOverdue.textContent = overdue;
+  if(el.kpiVendorInfo) el.kpiVendorInfo.textContent = vendorInfo;
+  if(el.kpiNormal) el.kpiNormal.textContent = normal;
 }
 function renderSummary(rows){
   const counts = {}; koridorOrder.forEach(k => counts[k] = {total:0,bad:0});
-  rows.forEach(r => { counts[r.koridor].total += 1; if(r.tindakan === 'Butuh Perbaikan') counts[r.koridor].bad += 1; });
+  let overdue = 0, openCase = 0;
+  rows.forEach(r => { counts[r.koridor].total += 1; if(r.tindakan === 'Butuh Perbaikan'){ counts[r.koridor].bad += 1; openCase += 1; if(daysNumber(r.lamaPenanganan) >= 7) overdue += 1; } });
   el.summaryChips.innerHTML = koridorOrder.filter(k => counts[k].total > 0).map(k => `<div class="chip">${k}: ${counts[k].total} armada, ${counts[k].bad} butuh perbaikan</div>`).join('');
+  el.priorityChips.innerHTML = `<div class="chip">Open Case: ${openCase}</div><div class="chip">Overdue 7+ hari: ${overdue}</div>`;
 }
 function renderTable(){
   const rows = filteredRecords(); renderStats(rows); renderSummary(rows);
-  if(!rows.length){ el.tableBody.innerHTML = `<tr><td colspan="11" style="text-align:center;color:#6b7d90;padding:26px">Tidak ada data.</td></tr>`; return; }
+  if(!rows.length){ el.tableBody.innerHTML = '<tr><td colspan="13" style="text-align:center;color:#6b7d90;padding:26px">Tidak ada data.</td></tr>'; return; }
   el.tableBody.innerHTML = rows.map(r => `
     <tr>
-      <td><b>${r.busId}</b></td><td>${r.koridor}</td><td>${r.jamCek}</td>
+      <td class="sticky-col"><b>${r.busId}</b></td>
+      <td class="sticky-col-2">${r.koridor}</td>
+      <td>${r.jamCek}</td>
       <td><span class="badge ${statusClass(r.statusRingkas)}">${r.statusRingkas}</span></td>
-      <td>${formatDisplayDate(r.tglMulaiGangguan)}</td><td>${formatDisplayDate(r.tglSelesai)}</td><td>${r.lamaPenanganan || '-'}</td>
-      <td>${formatDisplayDate(r.lastUpdate)}</td><td>${(r.lampiran || []).length} item</td>
+      <td>${formatDisplayDate(r.tglMulaiGangguan)}</td>
+      <td>${formatDisplayDate(r.tglInfoVendor)}</td>
+      <td>${formatDisplayDate(r.tglSelesai)}</td>
+      <td><span class="${agingClass(r.lamaPenanganan || '0 hari')}">${r.lamaPenanganan || '-'}</span></td>
+      <td>${formatDisplayDate(r.lastUpdate)}</td>
+      <td>${(r.lampiran || []).length} item</td>
       <td><span class="badge ${r.tindakan === 'Butuh Perbaikan' ? 'bad':'ok'}">${r.tindakan}</span></td>
-      <td><button class="detail-btn" onclick="openDetail('${r.busId.replace(/'/g, "\'")}')">Lihat</button></td>
+      <td><button class="action-btn" onclick="quickToggle('${r.busId}')">${r.tindakan === 'Butuh Perbaikan' ? 'Tandai Selesai' : 'Buka Kasus'}</button></td>
+      <td><button class="detail-btn" onclick="openDetail('${r.busId}')">Update</button></td>
     </tr>`).join('');
 }
+window.currentModalBusId = null;
 window.openDetail = function(busId){
-  const r = getRecord(busId);
+  const r = getRecord(busId); window.currentModalBusId = busId;
   el.modalTitle.textContent = r.busId; el.modalSubtitle.textContent = `${r.koridor} • Last Update ${formatDisplayDate(r.lastUpdate)}`;
-  const kv = [['Status Ringkas',r.statusRingkas],['Tindakan',r.tindakan],['Tgl Mulai Gangguan',formatDisplayDate(r.tglMulaiGangguan)],['Tgl Selesai',formatDisplayDate(r.tglSelesai)],['Lama Penanganan',r.lamaPenanganan || '-'],['Jam Cek',r.jamCek],['Lampiran',`${(r.lampiran || []).length} item`],['Last Update',formatDisplayDate(r.lastUpdate)]];
+  const kv = [['Status Ringkas',r.statusRingkas],['Tindakan',r.tindakan],['Status Vendor',r.vendorStatus || '-'],['Tgl Mulai Gangguan',formatDisplayDate(r.tglMulaiGangguan)],['Tgl Info Vendor',formatDisplayDate(r.tglInfoVendor)],['Tgl Selesai',formatDisplayDate(r.tglSelesai)],['Lama Penanganan',r.lamaPenanganan || '-'],['Jam Cek',r.jamCek],['Lampiran',`${(r.lampiran || []).length} item`],['Last Update',formatDisplayDate(r.lastUpdate)]];
   el.modalKv.innerHTML = kv.map(([k,v]) => `<div class="mini"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
-  const items = [['Kamera 1',r.kamera1],['Kamera 2',r.kamera2],['Kamera 3',r.kamera3],['Kamera 4',r.kamera4],['Kamera 5',r.kamera5],['Kamera 6',r.kamera6],['Kamera 7',r.kamera7],['Video Tron',r.videoTron],['Running Text',r.runningText],['OBU',r.obu],['GPS (AJAIB)',r.gps]];
-  el.modalItems.innerHTML = items.map(([k,v]) => `<div class="mini"><div class="k">${k}</div><div class="v"><span class="badge ${v==='Tidak Berfungsi' ? 'bad' : (v==='Berfungsi Dengan Catatan' ? 'warn' : (v==='Berfungsi' ? 'ok' : 'neutral'))}">${v}</span></div></div>`).join('');
+  const items = [['kamera1','Kamera 1',r.kamera1],['kamera2','Kamera 2',r.kamera2],['kamera3','Kamera 3',r.kamera3],['kamera4','Kamera 4',r.kamera4],['kamera5','Kamera 5',r.kamera5],['kamera6','Kamera 6',r.kamera6],['kamera7','Kamera 7',r.kamera7],['videoTron','Video Tron',r.videoTron],['runningText','Running Text',r.runningText],['obu','OBU',r.obu],['gps','GPS (AJAIB)',r.gps]];
+  el.modalItems.innerHTML = items.map(([key,label,val]) => `<div class="mini"><div class="k">${label}</div><select class="mini-select" data-item-key="${key}">${selectOptions(val)}</select></div>`).join('');
   el.modalCatatan.innerHTML = (r.catatan || '-').replace(/\n/g,'<br>');
   el.modalLampiran.innerHTML = (r.lampiran || []).length ? `<ul>${r.lampiran.map(x => `<li>${x}</li>`).join('')}</ul>` : '-';
+  el.modalHistory.innerHTML = (r.history && r.history.length) ? r.history.map(x => `<li>${x}</li>`).join('') : '<li>Belum ada histori update.</li>';
+  el.modalStatusRingkas.value = r.statusRingkas; el.modalTindakan.value = r.tindakan; el.modalVendorStatus.value = r.vendorStatus || 'Belum Diinfokan';
+  el.modalTglGangguan.value = r.tglMulaiGangguan || ''; el.modalTglInfoVendor.value = r.tglInfoVendor || ''; el.modalPicVendor.value = r.picVendor || '';
+  el.modalCatatanInput.value = r.catatan || ''; el.modalLampiranInput.value = (r.lampiran || []).join('\n');
   el.modalBackdrop.style.display = 'flex';
-};
+}
+window.quickToggle = function(busId){
+  const r = getRecord(busId);
+  if(r.tindakan === 'Butuh Perbaikan'){
+    r.tindakan = 'Berfungsi Normal'; r.statusRingkas = 'Berfungsi Normal'; r.tglSelesai = TODAY; r.lamaPenanganan = r.tglMulaiGangguan ? calcDays(r.tglMulaiGangguan, TODAY) : ''; pushHistory(r, 'Aksi cepat: ditandai selesai');
+  } else {
+    r.tindakan = 'Butuh Perbaikan'; r.statusRingkas = 'Butuh Perbaikan'; r.tglMulaiGangguan = r.tglMulaiGangguan || TODAY; r.tglSelesai = ''; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, ''); pushHistory(r, 'Aksi cepat: buka kasus');
+  }
+  r.lastUpdate = TODAY; saveRecords(); renderTable();
+}
+function saveFromModal(){
+  if(!window.currentModalBusId) return;
+  const r = getRecord(window.currentModalBusId);
+  r.statusRingkas = el.modalStatusRingkas.value; r.tindakan = el.modalTindakan.value; r.vendorStatus = el.modalVendorStatus.value;
+  r.tglMulaiGangguan = el.modalTglGangguan.value || ''; r.tglInfoVendor = el.modalTglInfoVendor.value || ''; r.picVendor = el.modalPicVendor.value.trim();
+  document.querySelectorAll('#modalItems select[data-item-key]').forEach(sel => { r[sel.dataset.itemKey] = sel.value; });
+  r.catatan = el.modalCatatanInput.value.trim(); r.lampiran = parseLampiran(el.modalLampiranInput.value);
+  if(!r.catatan) r.catatan = autoGenerateCatatan(r);
+  if(r.tindakan === 'Butuh Perbaikan'){ r.tglMulaiGangguan = r.tglMulaiGangguan || TODAY; r.tglSelesai = ''; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, ''); }
+  else if(r.tglMulaiGangguan){ r.tglSelesai = TODAY; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, TODAY); }
+  else { r.tglSelesai = ''; r.lamaPenanganan = ''; }
+  r.lastUpdate = TODAY; pushHistory(r, `Update dari popup: ${r.statusRingkas}, tindakan ${r.tindakan}`); saveRecords(); renderTable(); loadRecordToForm(r.busId); openDetail(r.busId);
+}
 function exportExcel(){
   const rows = filteredRecords();
-  let html = `<html><head><meta charset="UTF-8"></head><body><table border="1"><tr><th>NO. BUS</th><th>Koridor</th><th>Jam Cek</th><th>Status Ringkas</th><th>Tgl Mulai Gangguan</th><th>Tgl Selesai</th><th>Lama Penanganan</th><th>Last Update</th><th>Lampiran</th><th>Tindakan</th><th>Catatan</th></tr>`;
-  rows.forEach(r => { html += `<tr><td>${r.busId}</td><td>${r.koridor}</td><td>${r.jamCek}</td><td>${r.statusRingkas}</td><td>${formatDisplayDate(r.tglMulaiGangguan)}</td><td>${formatDisplayDate(r.tglSelesai)}</td><td>${r.lamaPenanganan || ''}</td><td>${formatDisplayDate(r.lastUpdate)}</td><td>${(r.lampiran || []).join(' | ')}</td><td>${r.tindakan}</td><td>${(r.catatan || '').replace(/\n/g,' | ')}</td></tr>`; });
-  html += `</table></body></html>`;
-  const blob = new Blob([html], {type:'application/vnd.ms-excel'}), a = document.createElement('a');
-  a.href = URL.createObjectURL(blob); a.download = 'monitoring_fasilitas_armada_transjatim.xls'; a.click();
+  let out = '<html><head><meta charset="UTF-8"></head><body><table border="1"><tr><th>NO. BUS</th><th>Koridor</th><th>Jam Cek</th><th>Status Ringkas</th><th>Tgl Mulai Gangguan</th><th>Tgl Info Vendor</th><th>Tgl Selesai</th><th>Lama Penanganan</th><th>Last Update</th><th>PIC Vendor</th><th>Lampiran</th><th>Tindakan</th><th>Catatan</th></tr>';
+  rows.forEach(r => { out += `<tr><td>${r.busId}</td><td>${r.koridor}</td><td>${r.jamCek}</td><td>${r.statusRingkas}</td><td>${formatDisplayDate(r.tglMulaiGangguan)}</td><td>${formatDisplayDate(r.tglInfoVendor)}</td><td>${formatDisplayDate(r.tglSelesai)}</td><td>${r.lamaPenanganan || ''}</td><td>${formatDisplayDate(r.lastUpdate)}</td><td>${r.picVendor || ''}</td><td>${(r.lampiran || []).join(' | ')}</td><td>${r.tindakan}</td><td>${(r.catatan || '').replace(/\n/g,' | ')}</td></tr>`; });
+  out += '</table></body></html>';
+  const blob = new Blob([out], {type:'application/vnd.ms-excel'}), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'monitoring_fasilitas_armada_transjatim_operasional.xls'; a.click();
 }
 el.koridor.addEventListener('change', updateBusDropdown);
 el.busId.addEventListener('change', () => loadRecordToForm(el.busId.value));
-['searchInput','filterTindakan','filterStatus','filterKoridor'].forEach(id => el[id].addEventListener('input', renderTable));
+['searchInput','filterTindakan','filterOpenCase','filterStatus','filterKoridor'].forEach(id => el[id].addEventListener('input', renderTable));
+document.querySelectorAll('.quick-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.quick-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    quickFilterMode = btn.dataset.qf;
+    renderTable();
+  });
+});
 el.exportBtn.addEventListener('click', exportExcel);
+el.modalSaveBtn.addEventListener('click', saveFromModal);
 el.closeModal.addEventListener('click', ()=> el.modalBackdrop.style.display = 'none');
 el.modalBackdrop.addEventListener('click', (e)=> { if(e.target === el.modalBackdrop) el.modalBackdrop.style.display = 'none'; });
+
 el.formArmada.addEventListener('submit', function(e){
   e.preventDefault();
-  const rec = getRecord(el.busId.value), nowDate = TODAY, newTindakan = el.tindakan.value;
-  rec.koridor = el.koridor.value; rec.jamCek = el.jamCek.value.replace(':','.'); rec.statusRingkas = el.statusRingkas.value; rec.tindakan = newTindakan;
-  ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7','videoTron','runningText','obu','gps','catatan'].forEach(k => rec[k] = el[k].value);
-  rec.lampiran = parseLampiran(el.lampiran.value); rec.lastUpdate = nowDate;
-  if(newTindakan === 'Butuh Perbaikan'){ if(!rec.tglMulaiGangguan) rec.tglMulaiGangguan = nowDate; rec.tglSelesai = ''; rec.lamaPenanganan = calcDays(rec.tglMulaiGangguan, ''); }
-  else { if(rec.tglMulaiGangguan){ rec.tglSelesai = nowDate; rec.lamaPenanganan = calcDays(rec.tglMulaiGangguan, nowDate); } else { rec.tglSelesai = ''; rec.lamaPenanganan = ''; } }
-  saveRecords(); renderTable(); alert('Status armada berhasil diupdate.');
+  const r = getRecord(el.busId.value), manualGangguan = el.tglGangguanInput.value;
+  r.koridor = el.koridor.value; r.jamCek = el.jamCek.value.replace(':','.'); r.statusRingkas = el.statusRingkas.value; r.tindakan = el.tindakan.value;
+  r.vendorStatus = el.vendorStatus.value; r.tglInfoVendor = el.tglInfoVendor.value || ''; r.picVendor = el.picVendor.value.trim();
+  ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7','videoTron','runningText','obu','gps','catatan'].forEach(k => r[k] = el[k].value);
+  r.lampiran = parseLampiran(el.lampiran.value); r.lastUpdate = TODAY;
+  if(!r.catatan) r.catatan = autoGenerateCatatan(r);
+  if(r.tindakan === 'Butuh Perbaikan'){ r.tglMulaiGangguan = manualGangguan || r.tglMulaiGangguan || TODAY; r.tglSelesai = ''; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, ''); }
+  else if(manualGangguan || r.tglMulaiGangguan){ if(manualGangguan) r.tglMulaiGangguan = manualGangguan; r.tglSelesai = TODAY; r.lamaPenanganan = calcDays(r.tglMulaiGangguan, TODAY); }
+  else { r.tglSelesai = ''; r.lamaPenanganan = ''; }
+  pushHistory(r, `Update dari panel kiri: ${r.statusRingkas}, tindakan ${r.tindakan}`); saveRecords(); renderTable(); loadRecordToForm(r.busId); alert('Status armada berhasil diupdate.');
 });
+
 initDropdowns(); loadRecordToForm(masterBus[0].busId); renderTable();
-</script></body></html>
+
+</script>
+
+<
+<div id="overlay" class="overlay"></div>
+<script>
+(function(){
+  const openBtn = document.getElementById('openManualFormBtn');
+  const panel = document.getElementById('sidePanel');
+  const overlay = document.getElementById('overlay');
+  const closeBtn = document.getElementById('closePanelBtn');
+
+  function openPanel(){
+    if(panel) panel.classList.add('active');
+    if(overlay) overlay.classList.add('active');
+  }
+  function closePanel(){
+    if(panel) panel.classList.remove('active');
+    if(overlay) overlay.classList.remove('active');
+  }
+
+  if(openBtn) openBtn.addEventListener('click', openPanel);
+  if(closeBtn) closeBtn.addEventListener('click', closePanel);
+  if(overlay) overlay.addEventListener('click', closePanel);
+})();
+</script>
+
+</body>
+</html>
