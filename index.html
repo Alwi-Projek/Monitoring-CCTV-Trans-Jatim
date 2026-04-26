@@ -236,13 +236,20 @@ td:nth-child(8),
 td:nth-child(9) {
   text-align: center;
 }
+
+/* EXPORT CEPAT: JPG/PDF */
+.export-control{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.export-control select{min-width:190px;padding:10px 12px;border:none;border-radius:14px;background:#ffffff;color:#185444;font-weight:800;outline:none}
+.export-control .export-jpg{background:#fef3c7;color:#7c4a03}.export-control .export-pdf{background:#fee2e2;color:#991b1b}
+ .export-stage{position:fixed;left:-99999px;top:0;z-index:-1}.export-report{width:1320px;min-height:760px;background:radial-gradient(circle at top left,#d7f4e8 0,#f8fbfd 34%,#fff7ed 100%);color:#102a43;font-family:Arial,Helvetica,sans-serif;padding:42px;border-radius:0;overflow:visible}.export-report *{box-sizing:border-box}.export-hero{background:linear-gradient(135deg,#0f3d35 0%,#1f6b57 52%,#0f766e 100%);color:#fff;border-radius:34px;padding:34px 36px;display:flex;justify-content:space-between;gap:28px;align-items:flex-start;box-shadow:0 24px 60px rgba(15,61,53,.25);position:relative;overflow:hidden}.export-hero::after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.10)}.export-title{font-size:42px;font-weight:950;line-height:1.08;margin:0 0 10px;letter-spacing:-.03em;max-width:880px}.export-subtitle{font-size:17px;color:#d9f7eb;margin:0;line-height:1.55;max-width:920px}.export-pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:12px 18px;border-radius:999px;font-weight:950;white-space:nowrap;font-size:16px;position:relative;z-index:1}.export-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}.export-kpi{background:#fff;border:1px solid #d8e0ea;border-radius:26px;padding:22px;box-shadow:0 14px 34px rgba(27,55,90,.10);position:relative;overflow:hidden}.export-kpi::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:#2563eb}.export-kpi.red::before{background:#dc2626}.export-kpi.amber::before{background:#f59e0b}.export-kpi.green::before{background:#16a34a}.export-kpi .k{font-size:13px;color:#64748b;font-weight:950;text-transform:uppercase;letter-spacing:.06em}.export-kpi .v{font-size:46px;font-weight:950;margin-top:8px;letter-spacing:-.03em;color:#0f172a}.export-section{background:rgba(255,255,255,.92);border:1px solid #d8e0ea;border-radius:30px;padding:24px;margin-top:22px;box-shadow:0 16px 38px rgba(27,55,90,.10);overflow:visible}.export-section-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}.export-section h3{margin:0;font-size:24px;color:#16324a;letter-spacing:-.02em}.export-section small{color:#64748b;font-weight:800}.export-cards{display:grid;grid-template-columns:1fr;gap:14px}.export-card{display:grid;grid-template-columns:190px 190px 1.15fr 110px 1.75fr;gap:14px;align-items:stretch;background:#fbfdff;border:1px solid #e2e8f0;border-left:9px solid #dc2626;border-radius:24px;padding:16px;box-shadow:0 8px 22px rgba(15,23,42,.06);break-inside:avoid;page-break-inside:avoid}.export-cell{background:#fff;border:1px solid #edf2f7;border-radius:18px;padding:12px;min-width:0}.export-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:950;margin-bottom:7px}.export-bus{font-size:24px;font-weight:950;color:#991b1b;letter-spacing:-.02em}.export-koridor{font-size:16px;font-weight:900;color:#16324a;line-height:1.35}.export-aging{display:inline-flex;align-items:center;justify-content:center;width:100%;height:42px;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:14px;font-weight:950;font-size:16px}.export-problem-tag{display:inline-block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:999px;padding:7px 11px;margin:3px 5px 3px 0;font-weight:950;font-size:13px;white-space:nowrap}.export-note{color:#334155;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;line-height:1.48;font-size:14px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:14px;padding:11px;min-height:42px}.export-empty{padding:34px;text-align:center;border:2px dashed #bbf7d0;border-radius:24px;background:#f0fdf4;color:#166534;font-weight:950;font-size:20px}.export-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:18px;color:#64748b;font-size:13px;font-weight:800}.export-watermark{position:absolute;right:38px;bottom:28px;color:rgba(15,23,42,.05);font-weight:950;font-size:54px;letter-spacing:-.04em;pointer-events:none}
+
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
     <div><h1>Monitoring Fasilitas Armada Trans Jatim</h1><p>Status armada saat ini, progres vendor, dan lama penanganan gangguan.</p></div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span style="background:rgba(255,255,255,.18);padding:8px 12px;border-radius:999px;font-weight:700">Supabase Connected</span><button class="btn primary" id="exportBtn">Export Excel</button></div>
+    <div class="export-control"><span style="background:rgba(255,255,255,.18);padding:8px 12px;border-radius:999px;font-weight:700">Supabase Connected</span><select id="exportKoridor" title="Pilih koridor untuk export"><option>Semua Koridor</option></select><button class="btn primary" id="exportBtn">Export Excel</button><button class="btn export-jpg" id="exportJpgBtn" type="button">Export JPG</button><button class="btn export-pdf" id="exportPdfBtn" type="button">Export PDF</button></div>
   </div>
 
   <div class="grid">
@@ -396,6 +403,8 @@ td:nth-child(9) {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script>
 const SUPABASE_URL = "https://kxrkjfoskbdcxzvxhulj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_qw6Ml032cf4I085NPx9Q0A_7V-0Xxdb";
@@ -464,7 +473,7 @@ const el = {
   tableBody:document.getElementById('tableBody'), summaryChips:document.getElementById('summaryChips'), priorityChips:document.getElementById('priorityChips'),
   statTotal:document.getElementById('statTotal'), statNormal:document.getElementById('statNormal'), statPantauan:document.getElementById('statPantauan'),
   statPerbaikan:document.getElementById('statPerbaikan'), statKoridor:document.getElementById('statKoridor'), kpiOpenCase:document.getElementById('kpiOpenCase'), kpiPantauan:document.getElementById('kpiPantauan'), kpiNormal:document.getElementById('kpiNormal'),
-  exportBtn:document.getElementById('exportBtn'), modalBackdrop:document.getElementById('modalBackdrop'), modalTitle:document.getElementById('modalTitle'),
+  exportBtn:document.getElementById('exportBtn'), exportKoridor:document.getElementById('exportKoridor'), exportJpgBtn:document.getElementById('exportJpgBtn'), exportPdfBtn:document.getElementById('exportPdfBtn'), modalBackdrop:document.getElementById('modalBackdrop'), modalTitle:document.getElementById('modalTitle'),
   modalSubtitle:document.getElementById('modalSubtitle'), modalKv:document.getElementById('modalKv'), modalItems:document.getElementById('modalItems'),
   modalCatatan:document.getElementById('modalCatatan'), modalLampiran:document.getElementById('modalLampiran'), modalHistory:document.getElementById('modalHistory'),
   modalTindakan:document.getElementById('modalTindakan'),
@@ -596,6 +605,11 @@ function initDropdowns(){
   el.filterKoridor.innerHTML = '<option>Semua Koridor</option>' + koridorOrder.map(k => `<option>${k}</option>`).join('');
   updateBusDropdown();
 }
+
+function initExportDropdown(){
+  if(!el.exportKoridor) return;
+  el.exportKoridor.innerHTML = '<option>Semua Koridor</option>' + koridorOrder.map(function(k){ return '<option>'+k+'</option>'; }).join('');
+}
 function updateBusDropdown(){
   const list = masterBus.filter(b => b.koridor === el.koridor.value);
   el.busId.innerHTML = list.map(b => `<option>${b.busId}</option>`).join('');
@@ -686,7 +700,7 @@ function renderSummary(rows){
 }
 function renderTable(){
   const rows = filteredRecords(); renderStats(rows); renderSummary(rows);
-  if(!rows.length){ el.tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#6b7d90;padding:26px">Tidak ada data.</td></tr>'; return; }
+  if(!rows.length){ el.tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#6b7d90;padding:26px">Tidak ada data.</td></tr>'; return; }
   el.tableBody.innerHTML = rows.map(r => `
     <tr>
       <td class="sticky-col"><b>${r.busId}</b></td>
@@ -768,6 +782,97 @@ function setAllVisibleItemsNormal(){
   if(el.modalTindakan) el.modalTindakan.value = 'Berfungsi Normal';
 }
 
+function escapeHtml(value){
+  return String(value ?? '').replace(/[&<>'"]/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]; });
+}
+function itemLabelsForExport(r){
+  const labels = {kamera1:'Kamera 1',kamera2:'Kamera 2',kamera3:'Kamera 3',kamera4:'Kamera 4',kamera5:'Kamera 5',kamera6:'Kamera 6',kamera7:'Kamera 7',videoTron:'Video Tron',runningText:'Running Text',obu:'OBU',gps:'GPS'};
+  return Object.keys(labels).filter(function(k){ return r[k] === 'Tidak Berfungsi'; }).map(function(k){ return labels[k]; });
+}
+function getExportProblemRows(){
+  const selected = el.exportKoridor ? el.exportKoridor.value : 'Semua Koridor';
+  return records
+    .filter(function(r){ return selected === 'Semua Koridor' ? true : r.koridor === selected; })
+    .map(function(r){ return Object.assign({}, r, {problemItems:itemLabelsForExport(r)}); })
+    .filter(function(r){ return r.problemItems.length > 0; })
+    .sort(function(a,b){ return daysNumber(b.lamaPenanganan)-daysNumber(a.lamaPenanganan) || a.koridor.localeCompare(b.koridor) || a.busId.localeCompare(b.busId); });
+}
+function getExportScopeLabel(){ return el.exportKoridor ? el.exportKoridor.value : 'Semua Koridor'; }
+function buildExportReport(){
+  const scope = getExportScopeLabel();
+  const problemRows = getExportProblemRows();
+  const sourceRows = records.filter(function(r){ return scope === 'Semua Koridor' ? true : r.koridor === scope; });
+  const affectedBuses = new Set(problemRows.map(function(r){ return r.busId; })).size;
+  const totalProblemTools = problemRows.reduce(function(sum,r){ return sum + r.problemItems.length; }, 0);
+  const longestDays = problemRows.reduce(function(max,r){ return Math.max(max, daysNumber(r.lamaPenanganan)); }, 0);
+  const dateLabel = new Date().toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'});
+  const rowsHtml = problemRows.map(function(r,idx){
+    const note = r.catatan && r.catatan.trim() ? r.catatan : 'Belum ada catatan.';
+    return '<div class="export-card">'+
+      '<div class="export-cell"><div class="export-label">Prioritas / Bus</div><div class="export-bus">#'+(idx+1)+' '+escapeHtml(r.busId)+'</div></div>'+
+      '<div class="export-cell"><div class="export-label">Koridor</div><div class="export-koridor">'+escapeHtml(r.koridor)+'</div></div>'+
+      '<div class="export-cell"><div class="export-label">Alat Butuh Perbaikan</div><div>'+r.problemItems.map(function(x){ return '<span class="export-problem-tag">'+escapeHtml(x)+'</span>'; }).join('')+'</div></div>'+
+      '<div class="export-cell"><div class="export-label">Aging</div><div class="export-aging">'+escapeHtml(r.lamaPenanganan || '-')+'</div></div>'+
+      '<div class="export-cell"><div class="export-label">Catatan</div><div class="export-note">'+escapeHtml(note)+'</div></div>'+
+    '</div>';
+  }).join('');
+  const emptyHtml = '<div class="export-empty">Tidak ada alat berstatus Tidak Berfungsi pada pilihan '+escapeHtml(scope)+'.</div>';
+  const container = document.createElement('div');
+  container.className = 'export-stage';
+  container.innerHTML = '<div class="export-report" id="exportReportCapture">'+
+    '<div class="export-hero"><div><h1 class="export-title">Executive Snapshot CCTV / Fasilitas Butuh Perbaikan</h1><p class="export-subtitle">Rekap Monitoring Fasilitas Armada <b>Tidak Berfungsi</b>, Trans Jatim.</p></div><div class="export-pill">'+escapeHtml(scope)+'</div></div>'+
+    '<div class="export-kpis">'+
+      '<div class="export-kpi blue"><div class="k">Total Armada Dipilih</div><div class="v">'+sourceRows.length+'</div></div>'+
+      '<div class="export-kpi red"><div class="k">Armada Terdampak</div><div class="v">'+affectedBuses+'</div></div>'+
+      '<div class="export-kpi amber"><div class="k">Alat Butuh Perbaikan</div><div class="v">'+totalProblemTools+'</div></div>'+
+      '<div class="export-kpi green"><div class="k">Aging Terlama</div><div class="v">'+longestDays+'<span style="font-size:20px"> hari</span></div></div>'+
+    '</div>'+
+    '<div class="export-section"><div class="export-section-head"><h3>Daftar Prioritas Perbaikan</h3><small>'+problemRows.length+' armada ditampilkan</small></div>'+
+      (problemRows.length ? '<div class="export-cards">'+rowsHtml+'</div>' : emptyHtml)+
+    '</div>'+
+    '<div class="export-footer"><div>Monitoring Fasilitas Armada Trans Jatim</div><div>Dibuat otomatis: '+escapeHtml(dateLabel)+'</div></div><div class="export-watermark">TRANS JATIM</div>'+
+  '</div>';
+  return container;
+}
+async function captureExportCanvas(){
+  const holder = buildExportReport();
+  document.body.appendChild(holder);
+  const target = holder.querySelector('#exportReportCapture');
+  const canvas = await html2canvas(target, {scale:2, backgroundColor:'#f8fbfd', useCORS:true});
+  document.body.removeChild(holder);
+  return canvas;
+}
+async function exportQuickJpg(){
+  const canvas = await captureExportCanvas();
+  const scope = getExportScopeLabel().replace(/[^a-z0-9]+/gi,'_').toLowerCase();
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/jpeg', 0.94);
+  a.download = 'laporan_cctv_butuh_perbaikan_'+scope+'.jpg';
+  a.click();
+}
+async function exportQuickPdf(){
+  const canvas = await captureExportCanvas();
+  const jsPDF = window.jspdf.jsPDF;
+  const pdf = new jsPDF('p','mm','a4');
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const imgWidth = pageWidth;
+  const imgHeight = canvas.height * imgWidth / canvas.width;
+  let heightLeft = imgHeight;
+  let position = 0;
+  const imgData = canvas.toDataURL('image/jpeg', 0.94);
+  pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+  heightLeft -= pageHeight;
+  while(heightLeft > 0){
+    position = heightLeft - imgHeight;
+    pdf.addPage();
+    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+  }
+  const scope = getExportScopeLabel().replace(/[^a-z0-9]+/gi,'_').toLowerCase();
+  pdf.save('laporan_cctv_butuh_perbaikan_'+scope+'.pdf');
+}
+
 function exportExcel(){
   const rows = filteredRecords();
   let out = '<html><head><meta charset="UTF-8"></head><body><table border="1"><tr><th>NO. BUS</th><th>Koridor</th><th>Tgl Mulai Gangguan</th><th>Tgl Selesai</th><th>Lama Penanganan</th><th>Last Update</th><th>Lampiran</th><th>Tindakan</th><th>Catatan</th></tr>';
@@ -788,6 +893,8 @@ document.querySelectorAll('#poinQuickFilters .quick-filter').forEach(btn => {
   });
 });
 el.exportBtn.addEventListener('click', exportExcel);
+if(el.exportJpgBtn) el.exportJpgBtn.addEventListener('click', exportQuickJpg);
+if(el.exportPdfBtn) el.exportPdfBtn.addEventListener('click', exportQuickPdf);
 el.modalSaveBtn.addEventListener('click', saveFromModal);
 el.setAllNormalBtn.addEventListener('click', setAllVisibleItemsNormal);
 el.closeModal.addEventListener('click', ()=> el.modalBackdrop.style.display = 'none');
@@ -821,6 +928,7 @@ el.formArmada.addEventListener('submit', function(e){
 
 async function bootstrap(){
   initDropdowns();
+  initExportDropdown();
   await loadFromSupabase();
 
   try{
