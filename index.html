@@ -30,17 +30,17 @@
     .helper{margin-top:14px;padding:12px 14px;border-radius:14px;background:#eef7f2;border:1px dashed #b9d9cb;color:#355a4c;font-size:13px;line-height:1.5}
     .toolbar{display:flex;justify-content:space-between;gap:12px;align-items:end;flex-wrap:wrap}.toolbar .filters{display:flex;gap:10px;flex-wrap:wrap}
     .summary-chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 12px;border-radius:999px;background:#eff4f8;border:1px solid var(--line);font-size:13px;font-weight:700}
-    .table-wrap{overflow:auto;border-top:1px solid var(--line)} table{width:100%;border-collapse:collapse;min-width:1450px}
-    th,td{padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
-    th{position:sticky;top:0;z-index:3;background:linear-gradient(180deg,#2c7b67,#226b59);color:#fff;white-space:nowrap}
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+    .table-wrap{overflow:auto;border-top:1px solid var(--line)} table{width:100%;border-collapse:collapse;min-width:1080px;table-layout:fixed}
+    th,td{padding:8px 8px;border-bottom:1px solid var(--line);font-size:12px;line-height:1.3;vertical-align:middle}
+    th{position:sticky;top:0;z-index:3;background:linear-gradient(180deg,#2c7b67,#226b59);color:#fff;white-space:nowrap;font-size:11.5px;letter-spacing:.25px;padding:9px 6px;text-transform:uppercase}
+    .badge{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap;min-width:112px}
     .ok{background:var(--ok-bg);color:var(--ok-text)} .warn{background:var(--warn-bg);color:var(--warn-text)} .bad{background:var(--bad-bg);color:var(--bad-text)} .neutral{background:#e9eff5;color:#4f6275}
-    .age-ok{background:#dff3da;color:#24713c;padding:6px 10px;border-radius:999px;font-weight:800}
-    .age-warn{background:#fff1bf;color:#8a6400;padding:6px 10px;border-radius:999px;font-weight:800}
-    .age-bad{background:#ffd7d7;color:#a31919;padding:6px 10px;border-radius:999px;font-weight:800}
-    .detail-btn{border:none;background:#edf4ff;color:#1f5fbf;padding:8px 10px;border-radius:10px;font-weight:700;cursor:pointer}
+    .age-ok{background:#dff3da;color:#24713c;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+    .age-warn{background:#fff1bf;color:#8a6400;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+    .age-bad{background:#ffd7d7;color:#a31919;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+    .detail-btn{border:none;background:#edf4ff;color:#1f5fbf;padding:6px 8px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
     .action-btn{border:none;background:#eef7f2;color:#1f6b57;padding:8px 10px;border-radius:10px;font-weight:700;cursor:pointer}
-    .sticky-col{position:sticky;left:0;background:#fff;z-index:2}.sticky-col-2{position:sticky;left:110px;background:#fff;z-index:2}
+    .sticky-col{position:sticky;left:0;background:#fff;z-index:2;width:92px}.sticky-col-2{position:sticky;left:92px;background:#fff;z-index:2;width:130px}
     .modal-backdrop{position:fixed;inset:0;background:rgba(8,18,32,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
     .modal{width:min(980px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;box-shadow:0 24px 60px rgba(0,0,0,.2)}
     .modal-header{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;position:sticky;top:0;background:#fff}
@@ -237,15 +237,64 @@ td:nth-child(9) {
   text-align: center;
 }
 
+
+/* TABLE DENSITY + NEXT LEVEL VISUAL */
+table.table-compact col:nth-child(1){width:92px}
+table.table-compact col:nth-child(2){width:130px}
+table.table-compact col:nth-child(3){width:116px}
+table.table-compact col:nth-child(4){width:104px}
+table.table-compact col:nth-child(5){width:118px}
+table.table-compact col:nth-child(6){width:104px}
+table.table-compact col:nth-child(7){width:78px}
+table.table-compact col:nth-child(8){width:142px}
+table.table-compact col:nth-child(9){width:96px}
+.table-compact tbody tr{transition:background .18s ease, box-shadow .18s ease}
+.table-compact tbody tr:hover{background:#f8fbff;box-shadow:inset 3px 0 0 #2563eb}
+.table-compact tbody tr.priority-row-bad td{background:#fff7f7}
+.table-compact tbody tr.priority-row-warn td{background:#fffdf3}
+.table-compact tbody tr.priority-row-bad:hover td{background:#fff1f1}
+.table-compact tbody tr.priority-row-warn:hover td{background:#fff8df}
+.table-compact tbody tr.priority-row-bad .sticky-col,
+.table-compact tbody tr.priority-row-bad .sticky-col-2{background:#fff7f7}
+.table-compact tbody tr.priority-row-warn .sticky-col,
+.table-compact tbody tr.priority-row-warn .sticky-col-2{background:#fffdf3}
+.table-compact tbody tr:hover .sticky-col,
+.table-compact tbody tr:hover .sticky-col-2{background:#f8fbff}
+.bus-cell{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px}
+.priority-dot{width:8px;height:8px;border-radius:999px;display:inline-block;background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.10)}
+.priority-dot.bad{background:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
+.priority-dot.warn{background:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.15)}
+.koridor-pill{display:inline-block;max-width:122px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#eef7f2;color:#1f6b57;border:1px solid #cde7dc;border-radius:999px;padding:4px 7px;font-weight:800;font-size:11px}
+.lampiran-count{display:inline-flex;align-items:center;gap:4px;color:#42586e;font-weight:800;font-size:11px}
+.status-icon{font-size:12px;line-height:1}
+@media (max-width:1200px){table{min-width:1000px}.table-wrap{max-height:calc(100vh - 330px)}}
+
+
+/* FILTER DASHBOARD PROFESIONAL */
+.filter-dashboard-card{position:relative;overflow:hidden;background:linear-gradient(135deg,#ffffff 0%,#f4fbf8 48%,#eef7ff 100%);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+.filter-dashboard-card::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:linear-gradient(90deg,#1f6b57,#2563eb,#f59e0b)}
+.filter-dashboard-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;padding-top:4px}
+.filter-title-wrap{display:flex;gap:12px;align-items:flex-start}
+.filter-icon-badge{width:42px;height:42px;border-radius:15px;background:#1f6b57;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 10px 24px rgba(31,107,87,.22);flex:0 0 auto}
+.filter-dashboard-card h3{margin:0;color:#16324a;letter-spacing:-.02em}.filter-dashboard-card .desc{margin:4px 0 0}
+.filter-grid-pro{display:grid;grid-template-columns:1.35fr repeat(3, minmax(170px, .75fr));gap:12px;align-items:end}
+.filter-field-pro{background:rgba(255,255,255,.82);border:1px solid #dce6ef;border-radius:18px;padding:11px 12px;box-shadow:0 8px 18px rgba(27,55,90,.04)}
+.filter-field-pro label{display:flex;align-items:center;gap:7px;margin-bottom:7px;color:#4f6275;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.filter-field-pro input,.filter-field-pro select{width:100%;border:none;background:transparent;outline:none;color:#16324a;font-size:14px;font-weight:700;padding:4px 0}
+.filter-field-pro input::placeholder{color:#93a4b5;font-weight:600}
+.filter-mini-note{display:inline-flex;align-items:center;gap:7px;background:#eef7f2;border:1px solid #cde6da;color:#24614e;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900;white-space:nowrap}
+@media (max-width:1100px){.filter-grid-pro{grid-template-columns:1fr 1fr}.filter-mini-note{white-space:normal}}
+@media (max-width:700px){.filter-grid-pro{grid-template-columns:1fr}.filter-dashboard-head{display:block}.filter-mini-note{margin-top:10px}}
+
 /* EXPORT CEPAT: JPG/PDF */
 .export-control{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .export-control select{min-width:190px;padding:10px 12px;border:none;border-radius:14px;background:#ffffff;color:#185444;font-weight:800;outline:none}
 .export-control .export-jpg{background:#fef3c7;color:#7c4a03}.export-control .export-pdf{background:#fee2e2;color:#991b1b}
-.export-stage{position:absolute;left:0;top:0;width:1120px;opacity:.01;pointer-events:none;z-index:99999;overflow:visible}.export-report{width:1120px;min-height:720px;background:linear-gradient(135deg,#eef7f3 0%,#f8fbfd 48%,#fff7ed 100%);color:#102a43;font-family:Arial,Helvetica,sans-serif;padding:34px;border-radius:0}
+.export-stage{position:fixed;left:-99999px;top:0;z-index:-1}.export-report{width:1120px;min-height:720px;background:linear-gradient(135deg,#eef7f3 0%,#f8fbfd 48%,#fff7ed 100%);color:#102a43;font-family:Arial,Helvetica,sans-serif;padding:34px;border-radius:0}
 .export-hero{background:linear-gradient(135deg,#155e4b 0%,#1f6b57 55%,#0f766e 100%);color:#fff;border-radius:28px;padding:28px;display:flex;justify-content:space-between;gap:22px;align-items:flex-start;box-shadow:0 18px 45px rgba(21,94,75,.22)}
 .export-title{font-size:34px;font-weight:900;line-height:1.15;margin:0 0 8px}.export-subtitle{font-size:15px;color:#d9f7eb;margin:0;line-height:1.5}.export-pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);padding:10px 14px;border-radius:999px;font-weight:900;white-space:nowrap}
 .export-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}.export-kpi{background:#fff;border:1px solid #d8e0ea;border-radius:22px;padding:18px;box-shadow:0 10px 25px rgba(27,55,90,.08)}.export-kpi .k{font-size:13px;color:#64748b;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.export-kpi .v{font-size:36px;font-weight:950;margin-top:6px}.export-kpi.red{border-top:7px solid #dc2626}.export-kpi.amber{border-top:7px solid #f59e0b}.export-kpi.green{border-top:7px solid #16a34a}.export-kpi.blue{border-top:7px solid #2563eb}
-.export-section{background:#fff;border:1px solid #d8e0ea;border-radius:24px;padding:20px;margin-top:18px;box-shadow:0 10px 25px rgba(27,55,90,.08)}.export-section h3{margin:0 0 12px;font-size:20px;color:#16324a}.export-table{width:100%;border-collapse:separate;border-spacing:0 10px}.export-table th{text-align:left;background:#eaf3ef;color:#1f6b57;font-size:12px;padding:10px 12px;text-transform:uppercase;letter-spacing:.04em}.export-table td{background:#fbfdff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:12px;font-size:14px;vertical-align:top;line-height:1.45}.export-table td:first-child{border-left:1px solid #e2e8f0;border-radius:14px 0 0 14px;font-weight:900;color:#991b1b;white-space:nowrap}.export-table td:last-child{border-right:1px solid #e2e8f0;border-radius:0 14px 14px 0}.export-problem-tag{display:inline-flex;flex-direction:column;gap:2px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:14px;padding:7px 11px;margin:3px 5px 3px 0;font-weight:950;font-size:13px;white-space:nowrap}.export-problem-tag small{font-size:10px;font-weight:900;opacity:.82;line-height:1}.export-problem-tag.warning{background:#fff7ed;color:#9a3412;border-color:#fed7aa}.export-problem-tag.danger{background:#fee2e2;color:#991b1b;border-color:#fecaca}.export-note{color:#334155;white-space:pre-wrap}.export-empty{padding:28px;text-align:center;border:2px dashed #bbf7d0;border-radius:20px;background:#f0fdf4;color:#166534;font-weight:900;font-size:18px}.export-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:16px;color:#64748b;font-size:12px;font-weight:700}
+.export-section{background:#fff;border:1px solid #d8e0ea;border-radius:24px;padding:20px;margin-top:18px;box-shadow:0 10px 25px rgba(27,55,90,.08)}.export-section h3{margin:0 0 12px;font-size:20px;color:#16324a}.export-table{width:100%;border-collapse:separate;border-spacing:0 10px}.export-table th{text-align:left;background:#eaf3ef;color:#1f6b57;font-size:12px;padding:10px 12px;text-transform:uppercase;letter-spacing:.04em}.export-table td{background:#fbfdff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:12px;font-size:14px;vertical-align:top;line-height:1.45}.export-table td:first-child{border-left:1px solid #e2e8f0;border-radius:14px 0 0 14px;font-weight:900;color:#991b1b;white-space:nowrap}.export-table td:last-child{border-right:1px solid #e2e8f0;border-radius:0 14px 14px 0}.export-problem-tag{display:inline-block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:999px;padding:6px 10px;margin:2px 4px 2px 0;font-weight:900;font-size:12px;white-space:nowrap}.export-note{color:#334155;white-space:pre-wrap}.export-empty{padding:28px;text-align:center;border:2px dashed #bbf7d0;border-radius:20px;background:#f0fdf4;color:#166534;font-weight:900;font-size:18px}.export-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:16px;color:#64748b;font-size:12px;font-weight:700}
 
 </style>
 </head>
@@ -319,13 +368,7 @@ td:nth-child(9) {
     <div class="main-content">
       <div class="card section" style="margin-bottom:14px">
         <div class="toolbar">
-          <div><h3>Tabel Monitoring Fasilitas</h3><p class="desc">Fokus pada status armada saat ini. Detail lengkap dibuka lewat popup.</p></div>
-          <div class="filters">
-            <div class="field" style="margin:0;min-width:220px"><label>Cari</label><input id="searchInput" placeholder="NO. BUS, koridor, catatan, PIC vendor" /></div>
-            <div class="field" style="margin:0;min-width:170px"><label>Filter Tindakan</label><select id="filterTindakan"><option>Semua Tindakan</option><option>Berfungsi Normal</option><option>Butuh Perbaikan</option></select></div>
-            <div class="field" style="margin:0;min-width:170px"><label>Filter Open Case</label><select id="filterOpenCase"><option>Semua</option><option>Hanya Open Case</option><option>Selesai</option></select></div>
-            <div class="field" style="margin:0;min-width:170px"><label>Filter Koridor</label><select id="filterKoridor"></select></div>
-          </div>
+          <div><h3>Tabel Monitoring Fasilitas</h3><p class="desc">Fokus pada status armada saat ini. Gunakan panel filter di bawah Ringkasan Cepat agar hasil tabel dan export langsung sesuai kebutuhan.</p></div>
         </div>
       </div>
 
@@ -335,25 +378,50 @@ td:nth-child(9) {
         <div class="summary-chips" style="margin-top:10px" id="priorityChips"></div>
       </div>
 
+      <div class="filter-dashboard-card">
+        <div class="filter-dashboard-head">
+          <div class="filter-title-wrap">
+            <div class="filter-icon-badge">🔎</div>
+            <div><h3>Filter Tabel Monitoring</h3><p class="desc">Atur pencarian, tindakan, open case, dan koridor. Export JPG/PDF di bawah akan mengikuti filter ini.</p></div>
+          </div>
+          <div class="filter-mini-note">⚡ Filter aktif langsung diterapkan ke tabel</div>
+        </div>
+        <div class="filter-grid-pro">
+          <div class="filter-field-pro"><label>🔍 Cari Armada / Catatan</label><input id="searchInput" placeholder="NO. BUS, koridor, catatan, PIC vendor" /></div>
+          <div class="filter-field-pro"><label>🛠️ Tindakan</label><select id="filterTindakan"><option>Semua Tindakan</option><option>Berfungsi Normal</option><option>Perlu Pantauan</option><option>Butuh Perbaikan</option></select></div>
+          <div class="filter-field-pro"><label>🚨 Open Case</label><select id="filterOpenCase"><option>Semua</option><option>Hanya Open Case</option><option>Selesai</option></select></div>
+          <div class="filter-field-pro"><label>🚌 Koridor</label><select id="filterKoridor"></select></div>
+        </div>
+      </div>
+
       <div class="card section" style="margin-bottom:14px">
         <h3>Filter Poin</h3>
         <div class="quick-filter-bar" id="poinQuickFilters">
-          <button class="quick-filter active" data-poin="Semua Poin">Semua Poin</button>
-          <button class="quick-filter" data-poin="Kamera">Kamera</button>
-          <button class="quick-filter" data-poin="Vidiotron">Vidiotron</button>
-          <button class="quick-filter" data-poin="Running Text">Running Text</button>
-          <button class="quick-filter" data-poin="GPS (Ajaib)">GPS (Ajaib)</button>
+          <button class="quick-filter active" data-poin="Semua Poin">📌 Semua Poin</button>
+          <button class="quick-filter" data-poin="Kamera">🎥 Kamera</button>
+          <button class="quick-filter" data-poin="Vidiotron">📺 Vidiotron</button>
+          <button class="quick-filter" data-poin="Running Text">📝 Running Text</button>
+          <button class="quick-filter" data-poin="GPS (Ajaib)">📍 GPS (Ajaib)</button>
         </div>
-        <div class="export-inline-actions" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-          <span class="chip" style="background:#f8fbfd">Export mengikuti filter aktif</span>
-          <button class="btn export-jpg" id="exportJpgBtn" type="button">Export JPG</button>
-          <button class="btn export-pdf" id="exportPdfBtn" type="button">Export PDF</button>
+        <div class="filter-export-panel">
+          <div>
+            <div class="filter-export-title">📤 Export hasil filter saat ini</div>
+            <div class="filter-export-note">JPG/PDF mengikuti filter aktif: pencarian, tindakan, open case, koridor, dan filter poin.</div>
+          </div>
+          <div class="filter-export-actions">
+            <select id="exportKoridor" title="Pilih koridor untuk export"><option>Semua Koridor</option></select>
+            <button class="btn export-jpg" id="exportJpgBtn" type="button">🖼️ Export JPG</button>
+            <button class="btn export-pdf" id="exportPdfBtn" type="button">📄 Export PDF</button>
+          </div>
         </div>
       </div>
 
       <div class="card">
         <div class="table-wrap">
-          <table>
+          <table class="table-compact">
+            <colgroup>
+              <col><col><col><col><col><col><col><col><col>
+            </colgroup>
             <thead>
               <tr>
                 <th>NO. BUS</th>
@@ -482,7 +550,7 @@ const el = {
   tableBody:document.getElementById('tableBody'), summaryChips:document.getElementById('summaryChips'), priorityChips:document.getElementById('priorityChips'),
   statTotal:document.getElementById('statTotal'), statNormal:document.getElementById('statNormal'), statPantauan:document.getElementById('statPantauan'),
   statPerbaikan:document.getElementById('statPerbaikan'), statKoridor:document.getElementById('statKoridor'), kpiOpenCase:document.getElementById('kpiOpenCase'), kpiPantauan:document.getElementById('kpiPantauan'), kpiNormal:document.getElementById('kpiNormal'),
-  exportBtn:document.getElementById('exportBtn'), exportJpgBtn:document.getElementById('exportJpgBtn'), exportPdfBtn:document.getElementById('exportPdfBtn'), modalBackdrop:document.getElementById('modalBackdrop'), modalTitle:document.getElementById('modalTitle'),
+  exportBtn:document.getElementById('exportBtn'), exportKoridor:document.getElementById('exportKoridor'), exportJpgBtn:document.getElementById('exportJpgBtn'), exportPdfBtn:document.getElementById('exportPdfBtn'), modalBackdrop:document.getElementById('modalBackdrop'), modalTitle:document.getElementById('modalTitle'),
   modalSubtitle:document.getElementById('modalSubtitle'), modalKv:document.getElementById('modalKv'), modalItems:document.getElementById('modalItems'),
   modalCatatan:document.getElementById('modalCatatan'), modalLampiran:document.getElementById('modalLampiran'), modalHistory:document.getElementById('modalHistory'),
   modalTindakan:document.getElementById('modalTindakan'),
@@ -707,19 +775,41 @@ function renderSummary(rows){
   el.summaryChips.innerHTML = koridorOrder.filter(k => counts[k].total > 0).map(k => `<div class="chip">${k}: ${counts[k].total} armada, ${counts[k].bad} butuh perbaikan, ${counts[k].pantauan} perlu pantauan</div>`).join('');
   el.priorityChips.innerHTML = `<div class="chip">Butuh Perbaikan: ${openCase}</div><div class="chip">Perlu Pantauan: ${pantauan}</div>`;
 }
+function rowPriorityClass(r){
+  if(r.statusRingkas === 'Butuh Perbaikan' || r.tindakan === 'Butuh Perbaikan') return 'priority-row-bad';
+  if(r.statusRingkas === 'Perlu Pantauan' || r.tindakan === 'Perlu Pantauan') return 'priority-row-warn';
+  return 'priority-row-ok';
+}
+function statusBadgeClass(status){
+  if(status === 'Butuh Perbaikan') return 'bad';
+  if(status === 'Perlu Pantauan') return 'warn';
+  if(status === 'Berfungsi Normal') return 'ok';
+  return 'neutral';
+}
+function statusIcon(status){
+  if(status === 'Butuh Perbaikan') return '✖';
+  if(status === 'Perlu Pantauan') return '⚠';
+  if(status === 'Berfungsi Normal') return '✓';
+  return '•';
+}
+function priorityDotClass(r){
+  if(r.statusRingkas === 'Butuh Perbaikan' || r.tindakan === 'Butuh Perbaikan') return 'bad';
+  if(r.statusRingkas === 'Perlu Pantauan' || r.tindakan === 'Perlu Pantauan') return 'warn';
+  return '';
+}
 function renderTable(){
   const rows = filteredRecords(); renderStats(rows); renderSummary(rows);
   if(!rows.length){ el.tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#6b7d90;padding:26px">Tidak ada data.</td></tr>'; return; }
   el.tableBody.innerHTML = rows.map(r => `
-    <tr>
-      <td class="sticky-col"><b>${r.busId}</b></td>
-      <td class="sticky-col-2">${r.koridor}</td>
+    <tr class="${rowPriorityClass(r)}">
+      <td class="sticky-col"><div class="bus-cell"><span class="priority-dot ${priorityDotClass(r)}"></span><b>${r.busId}</b></div></td>
+      <td class="sticky-col-2"><span class="koridor-pill" title="${r.koridor}">${r.koridor}</span></td>
       <td>${formatDisplayDate(r.tglMulaiGangguan)}</td>
       <td>${formatDisplayDate(r.tglSelesai)}</td>
       <td><span class="${agingClass(r.lamaPenanganan || '0 hari')}">${r.lamaPenanganan || '-'}</span></td>
       <td>${formatDisplayDate(r.lastUpdate)}</td>
-      <td>${(r.lampiran || []).length} item</td>
-      <td><span class="badge ${r.tindakan === 'Butuh Perbaikan' ? 'bad':'ok'}">${r.tindakan}</span></td>
+      <td><span class="lampiran-count">📎 ${(r.lampiran || []).length}</span></td>
+      <td><span class="badge ${statusBadgeClass(r.tindakan)}"><span class="status-icon">${statusIcon(r.tindakan)}</span>${r.tindakan}</span></td>
       <td><button class="detail-btn" onclick="openDetail('${r.busId}')">Update</button></td>
     </tr>`).join('');
 }
@@ -794,47 +884,23 @@ function setAllVisibleItemsNormal(){
 function escapeHtml(value){
   return String(value ?? '').replace(/[&<>'"]/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]; });
 }
-function isExportProblemStatus(value){
-  return value === 'Tidak Berfungsi' || value === 'Berfungsi Dengan Catatan';
-}
-function exportStatusTagClass(value){
-  if(value === 'Tidak Berfungsi') return 'export-problem-tag danger';
-  if(value === 'Berfungsi Dengan Catatan') return 'export-problem-tag warning';
-  return 'export-problem-tag';
-}
-function exportItemKeys(){
-  if(selectedPoinMode === 'Kamera') return ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7'];
-  if(selectedPoinMode === 'Vidiotron') return ['videoTron'];
-  if(selectedPoinMode === 'Running Text') return ['runningText'];
-  if(selectedPoinMode === 'GPS (Ajaib)') return ['gps'];
-  return ['kamera1','kamera2','kamera3','kamera4','kamera5','kamera6','kamera7','videoTron','runningText','obu','gps'];
-}
 function itemLabelsForExport(r){
   const labels = {kamera1:'Kamera 1',kamera2:'Kamera 2',kamera3:'Kamera 3',kamera4:'Kamera 4',kamera5:'Kamera 5',kamera6:'Kamera 6',kamera7:'Kamera 7',videoTron:'Video Tron',runningText:'Running Text',obu:'OBU',gps:'GPS'};
-  return exportItemKeys()
-    .filter(function(k){ return labels[k] && isExportProblemStatus(r[k]); })
-    .map(function(k){ return {label:labels[k], status:r[k]}; });
+  return Object.keys(labels).filter(function(k){ return r[k] === 'Tidak Berfungsi'; }).map(function(k){ return labels[k]; });
 }
 function getExportProblemRows(){
-  return filteredRecords()
+  const selected = el.exportKoridor ? el.exportKoridor.value : 'Semua Koridor';
+  return records
+    .filter(function(r){ return selected === 'Semua Koridor' ? true : r.koridor === selected; })
     .map(function(r){ return Object.assign({}, r, {problemItems:itemLabelsForExport(r)}); })
     .filter(function(r){ return r.problemItems.length > 0; })
     .sort(function(a,b){ return daysNumber(b.lamaPenanganan)-daysNumber(a.lamaPenanganan) || a.koridor.localeCompare(b.koridor) || a.busId.localeCompare(b.busId); });
 }
-function getExportScopeLabel(){
-  const parts = [];
-  if(el.filterKoridor && el.filterKoridor.value !== 'Semua Koridor') parts.push(el.filterKoridor.value);
-  else parts.push('Semua Koridor');
-  if(selectedPoinMode && selectedPoinMode !== 'Semua Poin') parts.push(selectedPoinMode);
-  if(el.filterTindakan && el.filterTindakan.value !== 'Semua Tindakan') parts.push(el.filterTindakan.value);
-  if(el.filterOpenCase && el.filterOpenCase.value !== 'Semua') parts.push(el.filterOpenCase.value);
-  if(el.searchInput && el.searchInput.value.trim()) parts.push('Cari: '+el.searchInput.value.trim());
-  return parts.join(' • ');
-}
+function getExportScopeLabel(){ return el.exportKoridor ? el.exportKoridor.value : 'Semua Koridor'; }
 function buildExportReport(){
   const scope = getExportScopeLabel();
   const problemRows = getExportProblemRows();
-  const sourceRows = filteredRecords();
+  const sourceRows = records.filter(function(r){ return scope === 'Semua Koridor' ? true : r.koridor === scope; });
   const affectedBuses = new Set(problemRows.map(function(r){ return r.busId; })).size;
   const totalProblemTools = problemRows.reduce(function(sum,r){ return sum + r.problemItems.length; }, 0);
   const longestDays = problemRows.reduce(function(max,r){ return Math.max(max, daysNumber(r.lamaPenanganan)); }, 0);
@@ -843,24 +909,24 @@ function buildExportReport(){
     return '<tr>'+
       '<td>'+(idx+1)+'. '+escapeHtml(r.busId)+'</td>'+
       '<td>'+escapeHtml(r.koridor)+'</td>'+
-      '<td>'+r.problemItems.map(function(x){ return '<span class="'+exportStatusTagClass(x.status)+'">'+escapeHtml(x.label)+'<small>'+escapeHtml(x.status)+'</small></span>'; }).join('')+'</td>'+
+      '<td>'+r.problemItems.map(function(x){ return '<span class="export-problem-tag">'+escapeHtml(x)+'</span>'; }).join('')+'</td>'+
       '<td>'+escapeHtml(r.lamaPenanganan || '-')+'</td>'+
       '<td class="export-note">'+escapeHtml(r.catatan || '-')+'</td>'+
     '</tr>';
   }).join('');
-  const emptyHtml = '<div class="export-empty">Tidak ada alat berstatus Tidak Berfungsi / Berfungsi Dengan Catatan pada pilihan '+escapeHtml(scope)+'.</div>';
+  const emptyHtml = '<div class="export-empty">Tidak ada alat berstatus Tidak Berfungsi pada pilihan '+escapeHtml(scope)+'.</div>';
   const container = document.createElement('div');
   container.className = 'export-stage';
   container.innerHTML = '<div class="export-report" id="exportReportCapture">'+
-    '<div class="export-hero"><div><h1 class="export-title">Laporan Cepat CCTV/Fasilitas Butuh Perbaikan</h1><p class="export-subtitle">Menampilkan alat berstatus <b>Tidak Berfungsi</b> dan <b>Berfungsi Dengan Catatan</b> beserta catatan agar mudah dibaca pimpinan/vendor.</p></div><div class="export-pill">'+escapeHtml(scope)+'</div></div>'+
+    '<div class="export-hero"><div><h1 class="export-title">Laporan Cepat CCTV/Fasilitas Butuh Perbaikan</h1><p class="export-subtitle">Hanya menampilkan alat berstatus <b>Tidak Berfungsi</b> beserta catatan agar mudah dibaca pimpinan/vendor.</p></div><div class="export-pill">'+escapeHtml(scope)+'</div></div>'+
     '<div class="export-kpis">'+
       '<div class="export-kpi blue"><div class="k">Total Armada Dipilih</div><div class="v">'+sourceRows.length+'</div></div>'+
       '<div class="export-kpi red"><div class="k">Armada Terdampak</div><div class="v">'+affectedBuses+'</div></div>'+
-      '<div class="export-kpi amber"><div class="k">Alat Perlu Atensi</div><div class="v">'+totalProblemTools+'</div></div>'+
+      '<div class="export-kpi amber"><div class="k">Alat Butuh Perbaikan</div><div class="v">'+totalProblemTools+'</div></div>'+
       '<div class="export-kpi green"><div class="k">Aging Terlama</div><div class="v">'+longestDays+'<span style="font-size:18px"> hari</span></div></div>'+
     '</div>'+
-    '<div class="export-section"><h3>Daftar Alat Perlu Atensi</h3>'+
-      (problemRows.length ? '<table class="export-table"><thead><tr><th>Bus</th><th>Koridor</th><th>Alat perlu atensi</th><th>Lama</th><th>Catatan</th></tr></thead><tbody>'+rowsHtml+'</tbody></table>' : emptyHtml)+
+    '<div class="export-section"><h3>Daftar Prioritas Perbaikan</h3>'+
+      (problemRows.length ? '<table class="export-table"><thead><tr><th>Bus</th><th>Koridor</th><th>Alat bermasalah</th><th>Lama</th><th>Catatan</th></tr></thead><tbody>'+rowsHtml+'</tbody></table>' : emptyHtml)+
     '</div>'+
     '<div class="export-footer"><div>Monitoring Fasilitas Armada Trans Jatim</div><div>Dibuat otomatis: '+escapeHtml(dateLabel)+'</div></div>'+
   '</div>';
@@ -868,40 +934,10 @@ function buildExportReport(){
 }
 async function captureExportCanvas(){
   const holder = buildExportReport();
-  const previousOverflow = document.body.style.overflow;
-  const previousMinWidth = document.body.style.minWidth;
-  document.body.style.overflow = 'visible';
-  document.body.style.minWidth = '1120px';
   document.body.appendChild(holder);
-
   const target = holder.querySelector('#exportReportCapture');
-
-  // Paksa browser menghitung seluruh tinggi konten sebelum capture.
-  await new Promise(function(resolve){ requestAnimationFrame(function(){ requestAnimationFrame(resolve); }); });
-
-  const rect = target.getBoundingClientRect();
-  const fullWidth = Math.ceil(Math.max(target.scrollWidth, target.offsetWidth, rect.width, 1120));
-  const fullHeight = Math.ceil(Math.max(target.scrollHeight, target.offsetHeight, rect.height));
-
-  const canvas = await html2canvas(target, {
-    scale: 2,
-    backgroundColor: '#f8fbfd',
-    useCORS: true,
-    allowTaint: true,
-    logging: false,
-    width: fullWidth,
-    height: fullHeight,
-    windowWidth: fullWidth,
-    windowHeight: fullHeight,
-    scrollX: 0,
-    scrollY: 0,
-    x: 0,
-    y: 0
-  });
-
+  const canvas = await html2canvas(target, {scale:2, backgroundColor:'#f8fbfd', useCORS:true});
   document.body.removeChild(holder);
-  document.body.style.overflow = previousOverflow;
-  document.body.style.minWidth = previousMinWidth;
   return canvas;
 }
 async function exportQuickJpg(){
