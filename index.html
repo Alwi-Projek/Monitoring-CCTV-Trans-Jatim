@@ -296,6 +296,25 @@ table.table-compact col:nth-child(9){width:96px}
 .export-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}.export-kpi{background:#fff;border:1px solid #d8e0ea;border-radius:22px;padding:18px;box-shadow:0 10px 25px rgba(27,55,90,.08)}.export-kpi .k{font-size:13px;color:#64748b;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.export-kpi .v{font-size:36px;font-weight:950;margin-top:6px}.export-kpi.red{border-top:7px solid #dc2626}.export-kpi.amber{border-top:7px solid #f59e0b}.export-kpi.green{border-top:7px solid #16a34a}.export-kpi.blue{border-top:7px solid #2563eb}
 .export-section{background:#fff;border:1px solid #d8e0ea;border-radius:24px;padding:20px;margin-top:18px;box-shadow:0 10px 25px rgba(27,55,90,.08)}.export-section h3{margin:0 0 12px;font-size:20px;color:#16324a}.export-table{width:100%;border-collapse:separate;border-spacing:0 10px}.export-table th{text-align:left;background:#eaf3ef;color:#1f6b57;font-size:12px;padding:10px 12px;text-transform:uppercase;letter-spacing:.04em}.export-table td{background:#fbfdff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:12px;font-size:14px;vertical-align:top;line-height:1.45}.export-table td:first-child{border-left:1px solid #e2e8f0;border-radius:14px 0 0 14px;font-weight:900;color:#991b1b;white-space:nowrap}.export-table td:last-child{border-right:1px solid #e2e8f0;border-radius:0 14px 14px 0}.export-problem-tag{display:inline-block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:999px;padding:6px 10px;margin:2px 4px 2px 0;font-weight:900;font-size:12px;white-space:nowrap}.export-note{color:#334155;white-space:pre-wrap}.export-empty{padding:28px;text-align:center;border:2px dashed #bbf7d0;border-radius:20px;background:#f0fdf4;color:#166534;font-weight:900;font-size:18px}.export-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:16px;color:#64748b;font-size:12px;font-weight:700}
 
+
+
+/* FINAL UX REFINEMENT: unified filter + compact issue table */
+.unified-filter-card{position:relative;overflow:hidden;background:linear-gradient(135deg,#ffffff 0%,#f5fbf8 52%,#eef6ff 100%);border:1px solid var(--line);border-radius:22px;}
+.unified-filter-card::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#1f6b57,#2563eb,#f59e0b)}
+.unified-filter-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap;padding-top:4px;margin-bottom:14px}
+.filter-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:900;color:#1f6b57;background:#e8f6f0;border:1px solid #cde8dc;border-radius:999px;padding:6px 10px;margin-bottom:8px}
+.unified-filter-head h3{margin:0;color:#16324a;font-size:20px;letter-spacing:-.02em}.unified-filter-head .desc{margin:5px 0 0}
+.filter-search-row{display:grid;grid-template-columns:minmax(260px,1.4fr) minmax(180px,.7fr) minmax(190px,.7fr);gap:12px;margin-top:12px;align-items:end}
+.filter-subtitle{margin:16px 0 8px;font-size:12px;font-weight:900;color:#6b7d90;text-transform:uppercase;letter-spacing:.08em}
+.compact-filter{margin-top:0}.compact-filter .quick-filter{padding:8px 13px;box-shadow:0 5px 14px rgba(27,55,90,.05)}
+.merged-export-panel{margin-top:16px;background:rgba(255,255,255,.78);border:1px solid #dce8f1;border-radius:18px}
+.problem-list{display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center;max-width:360px;margin:0 auto}
+.problem-tag{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:800;white-space:nowrap;border:1px solid transparent}
+.problem-tag.bad{background:#ffe2e2;color:#a31919;border-color:#ffc5c5}.problem-tag.warn{background:#fff2c6;color:#8a6400;border-color:#ffe39a}.problem-more{font-size:11px;font-weight:800;color:#607284;background:#edf4f8;border:1px solid var(--line);border-radius:999px;padding:4px 7px}
+.priority-badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:900;white-space:nowrap}.priority-badge.urgent{background:#ffe2e2;color:#991b1b}.priority-badge.medium{background:#fff1bf;color:#8a6400}.priority-badge.new{background:#dff3da;color:#24713c}.priority-badge.clear{background:#e9eff5;color:#4f6275}
+.table-compact th,.table-compact td{padding:7px 7px;font-size:12px;line-height:1.25}.table-compact th{font-size:11px;letter-spacing:.02em}.table-compact{min-width:1080px!important}.table-compact col:nth-child(1){width:90px}.table-compact col:nth-child(2){width:125px}.table-compact col:nth-child(3){width:92px}.table-compact col:nth-child(4){width:92px}.table-compact col:nth-child(5){width:92px}.table-compact col:nth-child(6){width:106px}.table-compact col:nth-child(7){width:300px}.table-compact col:nth-child(8){width:132px}.table-compact col:nth-child(9){width:88px}
+@media (max-width:900px){.filter-search-row{grid-template-columns:1fr}.filter-export-actions{width:100%;justify-content:flex-start}}
+
 </style>
 </head>
 <body>
@@ -378,38 +397,34 @@ table.table-compact col:nth-child(9){width:96px}
         <div class="summary-chips" style="margin-top:10px" id="priorityChips"></div>
       </div>
 
-      <div class="filter-dashboard-card">
-        <div class="filter-dashboard-head">
-          <div class="filter-title-wrap">
-            <div class="filter-icon-badge">🔎</div>
-            <div><h3>Filter Tabel Monitoring</h3><p class="desc">Atur pencarian, tindakan, open case, dan koridor. Export JPG/PDF di bawah akan mengikuti filter ini.</p></div>
+      <div class="card section unified-filter-card" style="margin-bottom:14px">
+        <div class="unified-filter-head">
+          <div>
+            <div class="filter-eyebrow">🎛️ Control Center</div>
+            <h3>Filter & Export Monitoring</h3>
+            <p class="desc">Search, filter poin, tindakan, dan koridor dijadikan satu. Tabel, JPG, dan PDF otomatis mengikuti pilihan di sini.</p>
           </div>
-          <div class="filter-mini-note">⚡ Filter aktif langsung diterapkan ke tabel</div>
+          <div class="filter-mini-note">⚡ Satu filter untuk tabel & export</div>
         </div>
-        <div class="filter-grid-pro">
-          <div class="filter-field-pro"><label>🔍 Cari Armada / Catatan</label><input id="searchInput" placeholder="NO. BUS, koridor, catatan, PIC vendor" /></div>
+        <div class="filter-search-row">
+          <div class="filter-field-pro search-wide"><label>🔍 Cari Armada / Catatan</label><input id="searchInput" placeholder="NO. BUS, koridor, catatan, PIC vendor" /></div>
           <div class="filter-field-pro"><label>🛠️ Tindakan</label><select id="filterTindakan"><option>Semua Tindakan</option><option>Berfungsi Normal</option><option>Perlu Pantauan</option><option>Butuh Perbaikan</option></select></div>
-          <div class="filter-field-pro"><label>🚨 Open Case</label><select id="filterOpenCase"><option>Semua</option><option>Hanya Open Case</option><option>Selesai</option></select></div>
           <div class="filter-field-pro"><label>🚌 Koridor</label><select id="filterKoridor"></select></div>
         </div>
-      </div>
-
-      <div class="card section" style="margin-bottom:14px">
-        <h3>Filter Poin</h3>
-        <div class="quick-filter-bar" id="poinQuickFilters">
-          <button class="quick-filter active" data-poin="Semua Poin">📌 Semua Poin</button>
+        <div class="filter-subtitle">Filter Poin</div>
+        <div class="quick-filter-bar compact-filter" id="poinQuickFilters">
+          <button class="quick-filter active" data-poin="Semua Poin">📌 Semua</button>
           <button class="quick-filter" data-poin="Kamera">🎥 Kamera</button>
           <button class="quick-filter" data-poin="Vidiotron">📺 Vidiotron</button>
           <button class="quick-filter" data-poin="Running Text">📝 Running Text</button>
-          <button class="quick-filter" data-poin="GPS (Ajaib)">📍 GPS (Ajaib)</button>
+          <button class="quick-filter" data-poin="GPS (Ajaib)">📍 GPS</button>
         </div>
-        <div class="filter-export-panel">
+        <div class="filter-export-panel merged-export-panel">
           <div>
-            <div class="filter-export-title">📤 Export hasil filter saat ini</div>
-            <div class="filter-export-note">JPG/PDF mengikuti filter aktif: pencarian, tindakan, open case, koridor, dan filter poin.</div>
+            <div class="filter-export-title">📤 Export hasil filter aktif</div>
+            <div class="filter-export-note">Export hanya memuat item bermasalah: <b>Tidak Berfungsi</b> dan <b>Berfungsi Dengan Catatan</b>.</div>
           </div>
           <div class="filter-export-actions">
-            <select id="exportKoridor" title="Pilih koridor untuk export"><option>Semua Koridor</option></select>
             <button class="btn export-jpg" id="exportJpgBtn" type="button">🖼️ Export JPG</button>
             <button class="btn export-pdf" id="exportPdfBtn" type="button">📄 Export PDF</button>
           </div>
@@ -426,13 +441,13 @@ table.table-compact col:nth-child(9){width:96px}
               <tr>
                 <th>NO. BUS</th>
                 <th>Koridor</th>
-                <th>Tgl Mulai Gangguan</th>
+                <th>Tgl Mulai</th>
                 <th>Tgl Selesai</th>
-                <th>Lama Penanganan</th>
-                <th>Last Update</th>
-                <th>Lampiran</th>
-                <th>Tindakan</th>
-                <th>Detail / Update</th>
+                <th>Lama</th>
+                <th>Prioritas</th>
+                <th>Masalah Utama</th>
+                <th>Status</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -550,7 +565,7 @@ const el = {
   tableBody:document.getElementById('tableBody'), summaryChips:document.getElementById('summaryChips'), priorityChips:document.getElementById('priorityChips'),
   statTotal:document.getElementById('statTotal'), statNormal:document.getElementById('statNormal'), statPantauan:document.getElementById('statPantauan'),
   statPerbaikan:document.getElementById('statPerbaikan'), statKoridor:document.getElementById('statKoridor'), kpiOpenCase:document.getElementById('kpiOpenCase'), kpiPantauan:document.getElementById('kpiPantauan'), kpiNormal:document.getElementById('kpiNormal'),
-  exportBtn:document.getElementById('exportBtn'), exportKoridor:document.getElementById('exportKoridor'), exportJpgBtn:document.getElementById('exportJpgBtn'), exportPdfBtn:document.getElementById('exportPdfBtn'), modalBackdrop:document.getElementById('modalBackdrop'), modalTitle:document.getElementById('modalTitle'),
+  exportBtn:document.getElementById('exportBtn'), exportJpgBtn:document.getElementById('exportJpgBtn'), exportPdfBtn:document.getElementById('exportPdfBtn'), modalBackdrop:document.getElementById('modalBackdrop'), modalTitle:document.getElementById('modalTitle'),
   modalSubtitle:document.getElementById('modalSubtitle'), modalKv:document.getElementById('modalKv'), modalItems:document.getElementById('modalItems'),
   modalCatatan:document.getElementById('modalCatatan'), modalLampiran:document.getElementById('modalLampiran'), modalHistory:document.getElementById('modalHistory'),
   modalTindakan:document.getElementById('modalTindakan'),
@@ -737,14 +752,15 @@ function pushHistory(r, text){
   r.history = r.history.slice(0, 20);
 }
 function filteredRecords(){
-  const q = el.searchInput.value.trim().toLowerCase(), tindakan = el.filterTindakan.value, openCase = el.filterOpenCase.value, poin = selectedPoinMode, koridor = el.filterKoridor.value;
+  const q = el.searchInput ? el.searchInput.value.trim().toLowerCase() : '';
+  const tindakan = el.filterTindakan ? el.filterTindakan.value : 'Semua Tindakan';
+  const poin = selectedPoinMode;
+  const koridor = el.filterKoridor ? el.filterKoridor.value : 'Semua Koridor';
   const priority = {'Butuh Perbaikan':0,'Perlu Pantauan':1,'Berfungsi Normal':2};
   return records.filter(r => {
     const hay = `${r.busId} ${r.koridor} ${r.catatan || ''} ${r.picVendor || ''}`.toLowerCase();
-    const okOpen = openCase === 'Semua' ? true : (openCase === 'Hanya Open Case' ? r.tindakan === 'Butuh Perbaikan' : r.tindakan === 'Berfungsi Normal');
     return (q ? hay.includes(q) : true)
       && (tindakan === 'Semua Tindakan' ? true : r.tindakan === tindakan)
-      && okOpen
       && recordMatchesPoin(r, poin)
       && (koridor === 'Semua Koridor' ? true : r.koridor === koridor);
   }).sort((a,b) => (priority[a.statusRingkas]-priority[b.statusRingkas]) || (daysNumber(b.lamaPenanganan)-daysNumber(a.lamaPenanganan)) || a.busId.localeCompare(b.busId));
@@ -797,6 +813,33 @@ function priorityDotClass(r){
   if(r.statusRingkas === 'Perlu Pantauan' || r.tindakan === 'Perlu Pantauan') return 'warn';
   return '';
 }
+function getProblemItems(r, options={}){
+  const max = options.max || Infinity;
+  const poin = options.poin || selectedPoinMode || 'Semua Poin';
+  const all = [
+    ['kamera1','Kamera 1','Kamera'],['kamera2','Kamera 2','Kamera'],['kamera3','Kamera 3','Kamera'],['kamera4','Kamera 4','Kamera'],['kamera5','Kamera 5','Kamera'],['kamera6','Kamera 6','Kamera'],['kamera7','Kamera 7','Kamera'],
+    ['videoTron','Vidiotron','Vidiotron'],['runningText','Running Text','Running Text'],['obu','OBU','OBU'],['gps','GPS','GPS (Ajaib)']
+  ];
+  const filtered = all.filter(([key,label,group]) => {
+    if(poin === 'Semua Poin') return true;
+    if(poin === 'Kamera') return group === 'Kamera';
+    return group === poin;
+  }).filter(([key]) => r[key] === 'Tidak Berfungsi' || r[key] === 'Berfungsi Dengan Catatan');
+  const items = filtered.map(([key,label]) => ({label, status:r[key], cls:r[key] === 'Tidak Berfungsi' ? 'bad' : 'warn', icon:r[key] === 'Tidak Berfungsi' ? '✖' : '⚠'}));
+  return {items: items.slice(0, max), total: items.length};
+}
+function renderMasalahUtama(r){
+  const data = getProblemItems(r, {max:3});
+  if(!data.total) return '<span style="color:#8aa;">-</span>';
+  return '<div class="problem-list">'+data.items.map(x => '<span class="problem-tag '+x.cls+'">'+x.icon+' '+escapeHtml(x.label)+'</span>').join('')+(data.total>3 ? '<span class="problem-more">+'+(data.total-3)+' lagi</span>' : '')+'</div>';
+}
+function getPrioritasBadge(r){
+  if(!(r.tindakan === 'Butuh Perbaikan' || r.tindakan === 'Perlu Pantauan')) return '<span class="priority-badge clear">✓ Clear</span>';
+  const n = daysNumber(r.lamaPenanganan || '0 hari');
+  if(n >= 7) return '<span class="priority-badge urgent">🔴 Urgent</span>';
+  if(n >= 3) return '<span class="priority-badge medium">🟠 Medium</span>';
+  return '<span class="priority-badge new">🟢 Baru</span>';
+}
 function renderTable(){
   const rows = filteredRecords(); renderStats(rows); renderSummary(rows);
   if(!rows.length){ el.tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#6b7d90;padding:26px">Tidak ada data.</td></tr>'; return; }
@@ -807,8 +850,8 @@ function renderTable(){
       <td>${formatDisplayDate(r.tglMulaiGangguan)}</td>
       <td>${formatDisplayDate(r.tglSelesai)}</td>
       <td><span class="${agingClass(r.lamaPenanganan || '0 hari')}">${r.lamaPenanganan || '-'}</span></td>
-      <td>${formatDisplayDate(r.lastUpdate)}</td>
-      <td><span class="lampiran-count">📎 ${(r.lampiran || []).length}</span></td>
+      <td>${getPrioritasBadge(r)}</td>
+      <td>${renderMasalahUtama(r)}</td>
       <td><span class="badge ${statusBadgeClass(r.tindakan)}"><span class="status-icon">${statusIcon(r.tindakan)}</span>${r.tindakan}</span></td>
       <td><button class="detail-btn" onclick="openDetail('${r.busId}')">Update</button></td>
     </tr>`).join('');
@@ -885,22 +928,21 @@ function escapeHtml(value){
   return String(value ?? '').replace(/[&<>'"]/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]; });
 }
 function itemLabelsForExport(r){
-  const labels = {kamera1:'Kamera 1',kamera2:'Kamera 2',kamera3:'Kamera 3',kamera4:'Kamera 4',kamera5:'Kamera 5',kamera6:'Kamera 6',kamera7:'Kamera 7',videoTron:'Video Tron',runningText:'Running Text',obu:'OBU',gps:'GPS'};
-  return Object.keys(labels).filter(function(k){ return r[k] === 'Tidak Berfungsi'; }).map(function(k){ return labels[k]; });
+  const data = getProblemItems(r, {poin:selectedPoinMode});
+  return data.items.map(function(x){ return x.label + ' - ' + x.status; });
 }
 function getExportProblemRows(){
-  const selected = el.exportKoridor ? el.exportKoridor.value : 'Semua Koridor';
-  return records
-    .filter(function(r){ return selected === 'Semua Koridor' ? true : r.koridor === selected; })
+  return filteredRecords()
     .map(function(r){ return Object.assign({}, r, {problemItems:itemLabelsForExport(r)}); })
     .filter(function(r){ return r.problemItems.length > 0; })
     .sort(function(a,b){ return daysNumber(b.lamaPenanganan)-daysNumber(a.lamaPenanganan) || a.koridor.localeCompare(b.koridor) || a.busId.localeCompare(b.busId); });
 }
-function getExportScopeLabel(){ return el.exportKoridor ? el.exportKoridor.value : 'Semua Koridor'; }
+function getExportScopeLabel(){ return el.filterKoridor ? el.filterKoridor.value : 'Semua Koridor'; }
+
 function buildExportReport(){
   const scope = getExportScopeLabel();
   const problemRows = getExportProblemRows();
-  const sourceRows = records.filter(function(r){ return scope === 'Semua Koridor' ? true : r.koridor === scope; });
+  const sourceRows = filteredRecords();
   const affectedBuses = new Set(problemRows.map(function(r){ return r.busId; })).size;
   const totalProblemTools = problemRows.reduce(function(sum,r){ return sum + r.problemItems.length; }, 0);
   const longestDays = problemRows.reduce(function(max,r){ return Math.max(max, daysNumber(r.lamaPenanganan)); }, 0);
@@ -914,11 +956,11 @@ function buildExportReport(){
       '<td class="export-note">'+escapeHtml(r.catatan || '-')+'</td>'+
     '</tr>';
   }).join('');
-  const emptyHtml = '<div class="export-empty">Tidak ada alat berstatus Tidak Berfungsi pada pilihan '+escapeHtml(scope)+'.</div>';
+  const emptyHtml = '<div class="export-empty">Tidak ada alat bermasalah pada filter '+escapeHtml(scope)+'.</div>';
   const container = document.createElement('div');
   container.className = 'export-stage';
   container.innerHTML = '<div class="export-report" id="exportReportCapture">'+
-    '<div class="export-hero"><div><h1 class="export-title">Laporan Cepat CCTV/Fasilitas Butuh Perbaikan</h1><p class="export-subtitle">Hanya menampilkan alat berstatus <b>Tidak Berfungsi</b> beserta catatan agar mudah dibaca pimpinan/vendor.</p></div><div class="export-pill">'+escapeHtml(scope)+'</div></div>'+
+    '<div class="export-hero"><div><h1 class="export-title">Laporan Cepat CCTV/Fasilitas Butuh Perbaikan</h1><p class="export-subtitle">Hanya menampilkan alat berstatus <b>Tidak Berfungsi</b> dan <b>Berfungsi Dengan Catatan</b> beserta catatan agar mudah dibaca pimpinan/vendor.</p></div><div class="export-pill">'+escapeHtml(scope)+'</div></div>'+
     '<div class="export-kpis">'+
       '<div class="export-kpi blue"><div class="k">Total Armada Dipilih</div><div class="v">'+sourceRows.length+'</div></div>'+
       '<div class="export-kpi red"><div class="k">Armada Terdampak</div><div class="v">'+affectedBuses+'</div></div>'+
@@ -981,7 +1023,7 @@ function exportExcel(){
 }
 el.koridor.addEventListener('change', updateBusDropdown);
 el.busId.addEventListener('change', () => loadRecordToForm(el.busId.value));
-['searchInput','filterTindakan','filterOpenCase','filterKoridor'].forEach(id => el[id].addEventListener('input', renderTable));
+['searchInput','filterTindakan','filterKoridor'].forEach(id => { if(el[id]) el[id].addEventListener('input', renderTable); });
 document.querySelectorAll('#poinQuickFilters .quick-filter').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#poinQuickFilters .quick-filter').forEach(b => b.classList.remove('active'));
